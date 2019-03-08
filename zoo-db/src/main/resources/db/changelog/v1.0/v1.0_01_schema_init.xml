@@ -3,6 +3,206 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
+    <!-- keeper -->
 
+    <changeSet id="v1.0.0.0" author="Ilya_Polyakov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <sequenceExists sequenceName="keeper_id_seq"/>
+            </not>
+        </preConditions>
+        <createSequence sequenceName="keeper_id_seq"/>
+    </changeSet>
+
+    <changeSet id="v1.0.0.1" author="Ilya_Polyakov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="keeper"/>
+            </not>
+        </preConditions>
+        <createTable tableName="keeper">
+            <column name="id" type="BIGINT" defaultValueSequenceNext="keeper_id_seq">
+                <constraints nullable="false"/>
+            </column>
+            <column name="first_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="v1.0.0.2" author="Ilya_Polyakov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <primaryKeyExists primaryKeyName="keeper_id_pk"/>
+            </not>
+        </preConditions>
+        <addPrimaryKey tableName="keeper"
+                       columnNames="id"
+                       constraintName="keeper_id_pk"/>
+    </changeSet>
+
+    <!-- cage -->
+
+    <changeSet id="v1.0.0.3" author="Ilya_Polyakov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <sequenceExists sequenceName="cage_id_seq"/>
+            </not>
+        </preConditions>
+        <createSequence sequenceName="cage_id_seq"/>
+    </changeSet>
+
+    <changeSet id="v1.0.0.4" author="Ilya_Polyakov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="cage"/>
+            </not>
+        </preConditions>
+        <createTable tableName="cage">
+            <column name="id" type="BIGINT" defaultValueSequenceNext="cage_id_seq">
+                <constraints nullable="false"/>
+            </column>
+            <column name="capacity" type="INTEGER" />
+        </createTable>
+    </changeSet>
+
+    <changeSet id="v1.0.0.5" author="Ilya_Polyakov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <primaryKeyExists primaryKeyName="cage_id_pk"/>
+            </not>
+        </preConditions>
+        <addPrimaryKey tableName="cage"
+                       columnNames="id"
+                       constraintName="cage_id_pk"/>
+    </changeSet>
+
+    <!-- kind -->
+
+    <changeSet id="v1.0.0.6" author="Ilya_Polyakov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <sequenceExists sequenceName="kind_id_seq"/>
+            </not>
+        </preConditions>
+        <createSequence sequenceName="kind_id_seq"/>
+    </changeSet>
+
+    <changeSet id="v1.0.0.7" author="Ilya_Polyakov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="kind"/>
+            </not>
+        </preConditions>
+        <createTable tableName="kind">
+            <column name="id" type="BIGINT" defaultValueSequenceNext="kind_id_seq">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints unique="true" nullable="false" />
+            </column>
+            <column name="is_predator" type="BOOLEAN" defaultValueBoolean="false" />
+        </createTable>
+    </changeSet>
+
+    <changeSet id="v1.0.0.8" author="Ilya_Polyakov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <primaryKeyExists primaryKeyName="kind_id_pk"/>
+            </not>
+        </preConditions>
+        <addPrimaryKey tableName="kind"
+                       columnNames="id"
+                       constraintName="kind_id_pk"/>
+    </changeSet>
+
+    <!-- animal -->
+
+    <changeSet id="v1.0.0.9" author="Ilya_Polyakov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <sequenceExists sequenceName="animal_id_seq"/>
+            </not>
+        </preConditions>
+        <createSequence sequenceName="animal_id_seq"/>
+    </changeSet>
+
+    <changeSet id="v1.0.0.10" author="Ilya_Polyakov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="animal"/>
+            </not>
+        </preConditions>
+        <createTable tableName="animal">
+            <column name="id" type="BIGINT" defaultValueSequenceNext="animal_id_seq">
+                <constraints nullable="false"/>
+            </column>
+            <column name="kind_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="cage_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="keeper_id" type="BIGINT" />
+            <column name="name" type="VARCHAR(255)">
+                <constraints unique="true" nullable="false" />
+            </column>
+            <column name="birth_date" type="TIMESTAMP"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="v1.0.0.11" author="Ilya_Polyakov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <primaryKeyExists primaryKeyName="animal_id_pk"/>
+            </not>
+        </preConditions>
+        <addPrimaryKey tableName="animal"
+                       columnNames="id"
+                       constraintName="animal_id_pk"/>
+    </changeSet>
+
+    <changeSet id="v1.0.0.12" author="Ilia_Poliakov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists foreignKeyName="animal_kind_fk"/>
+            </not>
+        </preConditions>
+        <addForeignKeyConstraint onDelete="CASCADE"
+                                 baseTableName="animal"
+                                 baseColumnNames="kind_id"
+                                 constraintName="animal_kind_fk"
+                                 referencedTableName="kind"
+                                 referencedColumnNames="id" />
+    </changeSet>
+
+    <changeSet id="v1.0.0.13" author="Ilia_Poliakov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists foreignKeyName="animal_cage_fk"/>
+            </not>
+        </preConditions>
+        <addForeignKeyConstraint baseTableName="animal"
+                                 baseColumnNames="cage_id"
+                                 constraintName="animal_cage_fk"
+                                 referencedTableName="cage"
+                                 referencedColumnNames="id" />
+    </changeSet>
+
+    <changeSet id="v1.0.0.14" author="Ilia_Poliakov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists foreignKeyName="animal_keeper_fk"/>
+            </not>
+        </preConditions>
+        <addForeignKeyConstraint baseTableName="animal"
+                                 baseColumnNames="keeper_id"
+                                 constraintName="animal_keeper_fk"
+                                 referencedTableName="keeper"
+                                 referencedColumnNames="id" />
+    </changeSet>
 
 </databaseChangeLog>
