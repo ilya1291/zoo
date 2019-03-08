@@ -16,12 +16,12 @@ public class AnimalRepositoryTest extends IntegrationTest {
 
     @Test
     public void shouldSave() {
-        Kind kind = kindRepository.save(kindPredator("kind_name"));
-        Keeper keeper = keeperRepository.save(keeper());
-        Cage cage = cageRepository.save(new Cage());
+        Kind kind = save(kindPredator("kind_name"));
+        Keeper keeper = save(keeper());
+        Cage cage = save(new Cage());
 
         Animal expected = animal("name", kind, cage, keeper);
-        Animal actual = animalRepository.save(expected);
+        Animal actual = save(expected);
         expected.setId(actual.getId());
 
         assertNotNull(actual.getId());
@@ -30,11 +30,11 @@ public class AnimalRepositoryTest extends IntegrationTest {
 
     @Test(expected = DataIntegrityViolationException.class)
     public void shouldNotSaveWithDuplicateName() {
-        Kind kind = kindRepository.save(kindPredator("kind_name"));
-        Keeper keeper = keeperRepository.save(keeper());
-        Cage cage = cageRepository.save(new Cage());
+        Kind kind = save(kindPredator("kind_name"));
+        Keeper keeper = save(keeper());
+        Cage cage = save(new Cage());
 
-        animalRepository.save(animal("name", kind, cage, keeper));
-        animalRepository.save(animal("name", kind, cage, keeper));
+        save(animal("name", kind, cage, keeper),
+             animal("name", kind, cage, keeper));
     }
 }

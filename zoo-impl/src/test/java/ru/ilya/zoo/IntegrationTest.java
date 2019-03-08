@@ -10,12 +10,16 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.support.TransactionTemplate;
 import ru.ilya.zoo.config.SecurityConfig;
+import ru.ilya.zoo.model.Animal;
+import ru.ilya.zoo.model.Cage;
 import ru.ilya.zoo.model.Keeper;
+import ru.ilya.zoo.model.Kind;
 import ru.ilya.zoo.repository.AnimalRepository;
 import ru.ilya.zoo.repository.CageRepository;
 import ru.ilya.zoo.repository.KeeperRepository;
 import ru.ilya.zoo.repository.KindRepository;
 
+import java.util.Arrays;
 import java.util.function.Supplier;
 
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
@@ -69,7 +73,19 @@ public abstract class IntegrationTest {
         });
     }
 
-    public Keeper save(Keeper keeper) {
-        return keeperRepository.save(keeper);
+    protected Keeper save(Keeper keeper) {
+        return doInTransaction(() -> keeperRepository.save(keeper));
+    }
+    protected Cage save(Cage cage) {
+        return doInTransaction(() -> cageRepository.save(cage));
+    }
+    protected Kind save(Kind kind) {
+        return doInTransaction(() -> kindRepository.save(kind));
+    }
+    protected Animal save(Animal animal) {
+        return doInTransaction(() -> animalRepository.save(animal));
+    }
+    protected void save(Animal... animals) {
+        doInTransaction(() -> animalRepository.saveAll(Arrays.asList(animals)));
     }
 }
