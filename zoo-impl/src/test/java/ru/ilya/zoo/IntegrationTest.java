@@ -1,5 +1,6 @@
 package ru.ilya.zoo;
 
+import ma.glasnost.orika.MapperFacade;
 import org.junit.After;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,8 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.support.TransactionTemplate;
+import ru.ilya.zoo.config.SecurityConfig;
+import ru.ilya.zoo.model.Keeper;
 import ru.ilya.zoo.repository.AnimalRepository;
 import ru.ilya.zoo.repository.CageRepository;
 import ru.ilya.zoo.repository.KeeperRepository;
@@ -29,6 +32,9 @@ public abstract class IntegrationTest {
     private TransactionTemplate txTemplate;
 
     @Autowired
+    protected MapperFacade mapperFacade;
+
+    @Autowired
     protected KeeperRepository keeperRepository;
 
     @Autowired
@@ -39,6 +45,10 @@ public abstract class IntegrationTest {
 
     @Autowired
     protected AnimalRepository animalRepository;
+
+    static {
+        System.setProperty(SecurityConfig.AUTH, SecurityConfig.SECURITY_PROPERTY_OFF);
+    }
 
     @After
     public final void clearAllRepositories() {
@@ -57,5 +67,9 @@ public abstract class IntegrationTest {
             method.run();
             return tx;
         });
+    }
+
+    public Keeper save(Keeper keeper) {
+        return keeperRepository.save(keeper);
     }
 }

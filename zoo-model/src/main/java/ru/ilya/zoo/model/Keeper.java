@@ -16,7 +16,6 @@ public class Keeper {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "keeper_id_seq")
     @Column(name = "id")
-    @EqualsAndHashCode.Include
     private Long id;
 
     @Column(name = "first_name")
@@ -25,6 +24,7 @@ public class Keeper {
     @Column(name = "last_name")
     private String lastName;
 
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "keeper")
     private Collection<Animal> animals = new HashSet<>();
 
