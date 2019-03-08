@@ -1,4 +1,4 @@
-package ru.ilya.zoo.dto;
+package ru.ilya.zoo.dto.keeper;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

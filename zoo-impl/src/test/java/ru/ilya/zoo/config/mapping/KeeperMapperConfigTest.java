@@ -3,8 +3,8 @@ package ru.ilya.zoo.config.mapping;
 import ma.glasnost.orika.MapperFacade;
 import org.junit.Before;
 import org.junit.Test;
-import ru.ilya.zoo.dto.KeeperCreateDto;
-import ru.ilya.zoo.dto.KeeperResponseDto;
+import ru.ilya.zoo.dto.keeper.KeeperCreateDto;
+import ru.ilya.zoo.dto.keeper.KeeperResponseDto;
 import ru.ilya.zoo.model.Keeper;
 import ru.ilya.zoo.utils.MapperUtils;
 

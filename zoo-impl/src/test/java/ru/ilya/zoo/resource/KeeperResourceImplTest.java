@@ -7,8 +7,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import ru.ilya.zoo.IntegrationTest;
-import ru.ilya.zoo.dto.KeeperCreateDto;
-import ru.ilya.zoo.dto.KeeperResponseDto;
+import ru.ilya.zoo.dto.keeper.KeeperCreateDto;
+import ru.ilya.zoo.dto.keeper.KeeperResponseDto;
 import ru.ilya.zoo.model.Keeper;
 
 import java.util.List;

@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.web.bind.annotation.RestController;
-import ru.ilya.zoo.dto.KeeperCreateDto;
-import ru.ilya.zoo.dto.KeeperResponseDto;
+import ru.ilya.zoo.dto.keeper.KeeperCreateDto;
+import ru.ilya.zoo.dto.keeper.KeeperResponseDto;
 import ru.ilya.zoo.model.Keeper;
 import ru.ilya.zoo.service.KeeperService;
 
