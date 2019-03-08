@@ -12,7 +12,7 @@ import java.util.List;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class KeepService {
+public class KeeperService {
 
     private final KeeperRepository keeperRepository;
 

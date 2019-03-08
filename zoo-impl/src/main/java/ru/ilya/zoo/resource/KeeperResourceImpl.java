@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.ilya.zoo.dto.KeeperCreateDto;
 import ru.ilya.zoo.dto.KeeperResponseDto;
 import ru.ilya.zoo.model.Keeper;
-import ru.ilya.zoo.service.KeepService;
+import ru.ilya.zoo.service.KeeperService;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -17,17 +17,17 @@ import java.util.List;
 @RequiredArgsConstructor
 public class KeeperResourceImpl implements KeeperResource {
 
-    private final KeepService keepService;
+    private final KeeperService keeperService;
     private final MapperFacade mapperFacade;
 
     @Override
     public List<KeeperResponseDto> getAll() {
         log.debug("getAll - start");
 
-        List<Keeper> keepers = keepService.getAll();
+        List<Keeper> keepers = keeperService.getAll();
         List<KeeperResponseDto> result = mapperFacade.mapAsList(keepers, KeeperResponseDto.class);
 
-        log.debug("getAllForUser - end: result = {}", result);
+        log.debug("getAll - end: result = {}", result);
         return result;
     }
 
@@ -36,7 +36,7 @@ public class KeeperResourceImpl implements KeeperResource {
         log.debug("create - start: dto = {}", dto);
 
         Keeper keeper = mapperFacade.map(dto, Keeper.class);
-        Keeper createdKeeper = keepService.create(keeper);
+        Keeper createdKeeper = keeperService.create(keeper);
         KeeperResponseDto result = mapperFacade.map(createdKeeper, KeeperResponseDto.class);
 
         log.debug("create - end: result = {}", result);
@@ -47,8 +47,8 @@ public class KeeperResourceImpl implements KeeperResource {
     public void deleteById(Long keeperId) {
         log.debug("deleteById - start: keeperId = {}", keeperId);
 
-        keepService.delete(keeperId);
+        keeperService.delete(keeperId);
 
-        log.debug("deleteById - end: taskId = {}", keeperId);
+        log.debug("deleteById - end: keeperId = {}", keeperId);
     }
 }

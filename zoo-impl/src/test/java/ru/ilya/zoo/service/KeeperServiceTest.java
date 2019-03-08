@@ -15,13 +15,13 @@ import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
 import static ru.ilya.zoo.utils.TestUtils.keeper;
 
-public class KeepServiceTest {
+public class KeeperServiceTest {
 
     @Mock
     private KeeperRepository keeperRepository;
 
     @InjectMocks
-    private KeepService keepService;
+    private KeeperService keeperService;
 
     @Before
     public void setUp() {
@@ -38,13 +38,13 @@ public class KeepServiceTest {
         Keeper keeper = keeper().setId(1L);
         Mockito.when(keeperRepository.existsById(keeper.getId())).thenReturn(true);
 
-        keepService.delete(keeper.getId());
+        keeperService.delete(keeper.getId());
         verify(keeperRepository).existsById(keeper.getId());
         verify(keeperRepository).deleteById(keeper.getId());
     }
 
     @Test(expected = EntityNotFoundException.class)
     public void shouldThrowIfNotExists_whenDeleting() {
-        keepService.delete(Long.MAX_VALUE);
+        keeperService.delete(Long.MAX_VALUE);
     }
 }

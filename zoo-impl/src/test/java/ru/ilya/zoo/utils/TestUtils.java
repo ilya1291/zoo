@@ -11,6 +11,10 @@ import java.time.LocalDate;
 @UtilityClass
 public class TestUtils {
 
+    public static Kind kind() {
+        return kind("default_name");
+    }
+
     public static Kind kind(String name) {
         return new Kind().setName(name);
     }
