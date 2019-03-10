@@ -1,4 +1,4 @@
-package ru.ilya.zoo.service;
+package ru.ilya.zoo.service.impl;
 
 import org.junit.After;
 import org.junit.Before;

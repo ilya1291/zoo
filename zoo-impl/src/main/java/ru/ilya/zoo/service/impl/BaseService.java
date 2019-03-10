@@ -1,16 +1,17 @@
-package ru.ilya.zoo.service;
+package ru.ilya.zoo.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.ilya.zoo.exceptions.EntityNotFoundException;
+import ru.ilya.zoo.service.Service;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 @Transactional
 @RequiredArgsConstructor
-public abstract class BaseService<T> implements Service<T> {
+abstract class BaseService<T> implements Service<T> {
 
     protected final JpaRepository<T, Long> repository;
 
