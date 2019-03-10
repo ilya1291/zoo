@@ -32,6 +32,17 @@ public class CageResourceImpl implements CageResource {
     }
 
     @Override
+    public CageResponseDto getOne(Long cageId) {
+        log.debug("getOne - start");
+
+        Cage cage = cageService.getOne(cageId);
+        CageResponseDto result = mapperFacade.map(cage, CageResponseDto.class);
+
+        log.debug("getOne - end: result = {}", result);
+        return result;
+    }
+
+    @Override
     public CageResponseDto create(@Valid CageCreateDto dto) {
         log.debug("create - start: dto = {}", dto);
 

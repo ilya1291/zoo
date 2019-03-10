@@ -16,6 +16,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 public class KindResourceImpl implements KindResource {
+
     private final KindService kindService;
     private final MapperFacade mapperFacade;
 
@@ -27,6 +28,17 @@ public class KindResourceImpl implements KindResource {
         List<KindResponseDto> result = mapperFacade.mapAsList(kinds, KindResponseDto.class);
 
         log.debug("getAll - end: result = {}", result);
+        return result;
+    }
+
+    @Override
+    public KindResponseDto getOne(Long kindId) {
+        log.debug("getOne - start");
+
+        Kind kind = kindService.getOne(kindId);
+        KindResponseDto result = mapperFacade.map(kind, KindResponseDto.class);
+
+        log.debug("getOne - end: result = {}", result);
         return result;
     }
 

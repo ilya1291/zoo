@@ -19,6 +19,11 @@ public interface KindResource {
     @ResponseStatus(HttpStatus.OK)
     List<KindResponseDto> getAll();
 
+    @GetMapping("/{kindId}")
+    @ApiOperation("Get one kind by id")
+    @ResponseStatus(HttpStatus.OK)
+    KindResponseDto getOne(@PathVariable("kindId") Long kindId);
+
     @PostMapping
     @ApiOperation("Create new kind")
     @ResponseStatus(HttpStatus.CREATED)

@@ -22,6 +22,13 @@ abstract class BaseService<T> implements Service<T> {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public T getOne(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(id, getGenericType(this)));
+    }
+
+    @Override
     public T create(T entity) {
         return repository.save(entity);
     }
@@ -36,7 +43,7 @@ abstract class BaseService<T> implements Service<T> {
 
     private static Class getGenericType(Object o) {
         Class actualClass = o.getClass();
-        ParameterizedType type = (ParameterizedType)actualClass.getGenericSuperclass();
-        return  (Class)type.getActualTypeArguments()[0];
+        ParameterizedType type = (ParameterizedType) actualClass.getGenericSuperclass();
+        return (Class) type.getActualTypeArguments()[0];
     }
 }

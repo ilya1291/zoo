@@ -1,18 +1,19 @@
 package ru.ilya.zoo.service.impl;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.data.jpa.repository.JpaRepository;
 import ru.ilya.zoo.exceptions.EntityNotFoundException;
 import ru.ilya.zoo.model.TestEntity;
 
-import static org.mockito.Mockito.reset;
-import static org.mockito.Mockito.verify;
+import java.util.Optional;
+
+import static org.mockito.Mockito.*;
 
 public class BaseServiceTest {
 
@@ -33,9 +34,24 @@ public class BaseServiceTest {
     }
 
     @Test
+    public void shouldGetOne() {
+        TestEntity expected = new TestEntity().setId(1L);
+        when(repository.findById(expected.getId()))
+                .thenReturn(Optional.of(expected));
+
+        TestEntity actual = baseService.getOne(expected.getId());
+        Assert.assertEquals(expected, actual);
+    }
+
+    @Test(expected = EntityNotFoundException.class)
+    public void shouldThrowIfNotExists() {
+        baseService.getOne(Long.MAX_VALUE);
+    }
+
+    @Test
     public void shouldDelete() {
         TestEntity entity = new TestEntity().setId(1L);
-        Mockito.when(repository.existsById(entity.getId())).thenReturn(true);
+        when(repository.existsById(entity.getId())).thenReturn(true);
 
         baseService.delete(entity.getId());
         verify(repository).existsById(entity.getId());

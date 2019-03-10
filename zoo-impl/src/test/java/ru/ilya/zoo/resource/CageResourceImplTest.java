@@ -36,6 +36,34 @@ public class CageResourceImplTest extends IntegrationTest {
     }
 
     @Test
+    public void getOne() {
+        CageResponseDto expected = mapperFacade.map(save(new Cage().setCapacity(10)),
+                                                         CageResponseDto.class);
+
+        ResponseEntity<CageResponseDto> response = restTemplate.exchange(
+                BASE_URL + "/{cageId}",
+                HttpMethod.GET,
+                null,
+                CageResponseDto.class,
+                expected.getId()
+        );
+        assertEquals(response.getStatusCode(), HttpStatus.OK);
+        assertEquals(expected, response.getBody());
+    }
+
+    @Test
+    public void shouldReturnNotFound_OnGetOne() {
+        ResponseEntity<String> response = restTemplate.exchange(
+                BASE_URL + "/{cageId}",
+                HttpMethod.GET,
+                null,
+                String.class,
+                Long.MAX_VALUE
+        );
+        assertEquals(response.getStatusCode(), HttpStatus.NOT_FOUND);
+    }
+
+    @Test
     public void create() {
         CageCreateDto dto = new CageCreateDto(10);
         ResponseEntity<CageResponseDto> response = restTemplate.exchange(

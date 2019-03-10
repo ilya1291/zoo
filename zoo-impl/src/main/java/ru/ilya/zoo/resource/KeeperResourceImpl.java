@@ -32,6 +32,17 @@ public class KeeperResourceImpl implements KeeperResource {
     }
 
     @Override
+    public KeeperResponseDto getOne(Long keeperId) {
+        log.debug("getOne - start");
+
+        Keeper keeper = keeperService.getOne(keeperId);
+        KeeperResponseDto result = mapperFacade.map(keeper, KeeperResponseDto.class);
+
+        log.debug("getOne - end: result = {}", result);
+        return result;
+    }
+
+    @Override
     public KeeperResponseDto create(@Valid KeeperCreateDto dto) {
         log.debug("create - start: dto = {}", dto);
 

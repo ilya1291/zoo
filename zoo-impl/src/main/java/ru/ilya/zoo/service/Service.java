@@ -6,6 +6,8 @@ public interface Service<T> {
 
     List<T> getAll();
 
+    T getOne(Long id);
+
     T create(T entity);
 
     void delete(Long id);

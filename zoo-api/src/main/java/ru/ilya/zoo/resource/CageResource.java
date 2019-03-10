@@ -19,6 +19,11 @@ public interface CageResource {
     @ResponseStatus(HttpStatus.OK)
     List<CageResponseDto> getAll();
 
+    @GetMapping("/{cageId}")
+    @ApiOperation("Get one cage by id")
+    @ResponseStatus(HttpStatus.OK)
+    CageResponseDto getOne(@PathVariable("cageId") Long cageId);
+
     @PostMapping
     @ApiOperation("Create new cage")
     @ResponseStatus(HttpStatus.CREATED)

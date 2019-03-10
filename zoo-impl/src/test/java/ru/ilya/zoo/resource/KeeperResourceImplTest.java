@@ -36,6 +36,33 @@ public class KeeperResourceImplTest extends IntegrationTest {
     }
 
     @Test
+    public void getOne() {
+        KeeperResponseDto expected = mapperFacade.map(save(keeper()), KeeperResponseDto.class);
+
+        ResponseEntity<KeeperResponseDto> response = restTemplate.exchange(
+                BASE_URL + "/{keeperId}",
+                HttpMethod.GET,
+                null,
+                KeeperResponseDto.class,
+                expected.getId()
+        );
+        assertEquals(response.getStatusCode(), HttpStatus.OK);
+        assertEquals(expected, response.getBody());
+    }
+
+    @Test
+    public void shouldReturnNotFound_OnGetOne() {
+        ResponseEntity<String> response = restTemplate.exchange(
+                BASE_URL + "/{keeperId}",
+                HttpMethod.GET,
+                null,
+                String.class,
+                Long.MAX_VALUE
+        );
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+    @Test
     public void create() {
         KeeperCreateDto dto = new KeeperCreateDto("first_name", "last_name");
         ResponseEntity<KeeperResponseDto> response = restTemplate.exchange(

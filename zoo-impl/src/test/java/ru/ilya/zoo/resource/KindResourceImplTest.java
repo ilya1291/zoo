@@ -36,6 +36,33 @@ public class KindResourceImplTest extends IntegrationTest {
     }
 
     @Test
+    public void getOne() {
+        KindResponseDto expected = mapperFacade.map(save(kind()), KindResponseDto.class);
+
+        ResponseEntity<KindResponseDto> response = restTemplate.exchange(
+                BASE_URL + "/{kindId}",
+                HttpMethod.GET,
+                null,
+                KindResponseDto.class,
+                expected.getId()
+        );
+        assertEquals(response.getStatusCode(), HttpStatus.OK);
+        assertEquals(expected, response.getBody());
+    }
+
+    @Test
+    public void shouldReturnNotFound_OnGetOne() {
+        ResponseEntity<String> response = restTemplate.exchange(
+                BASE_URL + "/{kindId}",
+                HttpMethod.GET,
+                null,
+                String.class,
+                Long.MAX_VALUE
+        );
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+    @Test
     public void create() {
         KindCreateDto dto = new KindCreateDto("name", true);
         ResponseEntity<KindResponseDto> response = restTemplate.exchange(

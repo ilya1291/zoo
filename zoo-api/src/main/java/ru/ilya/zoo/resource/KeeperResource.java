@@ -19,6 +19,11 @@ public interface KeeperResource {
     @ResponseStatus(HttpStatus.OK)
     List<KeeperResponseDto> getAll();
 
+    @GetMapping("/{keeperId}")
+    @ApiOperation("Get one keeper by id")
+    @ResponseStatus(HttpStatus.OK)
+    KeeperResponseDto getOne(@PathVariable("keeperId") Long keeperId);
+
     @PostMapping
     @ApiOperation("Create new keeper")
     @ResponseStatus(HttpStatus.CREATED)
