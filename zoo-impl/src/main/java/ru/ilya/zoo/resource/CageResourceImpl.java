@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.ilya.zoo.dto.cage.CageCreateDto;
 import ru.ilya.zoo.dto.cage.CageResponseDto;
 import ru.ilya.zoo.model.Cage;
-import ru.ilya.zoo.service.CageService;
+import ru.ilya.zoo.service.impl.CageService;
 
 import javax.validation.Valid;
 import java.util.List;

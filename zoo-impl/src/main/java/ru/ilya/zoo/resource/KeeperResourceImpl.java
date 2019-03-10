@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.ilya.zoo.dto.keeper.KeeperCreateDto;
 import ru.ilya.zoo.dto.keeper.KeeperResponseDto;
 import ru.ilya.zoo.model.Keeper;
-import ru.ilya.zoo.service.KeeperService;
+import ru.ilya.zoo.service.impl.KeeperService;
 
 import javax.validation.Valid;
 import java.util.List;

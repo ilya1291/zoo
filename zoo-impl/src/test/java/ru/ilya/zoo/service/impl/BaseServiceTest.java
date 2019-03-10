@@ -1,4 +1,4 @@
-package ru.ilya.zoo.service;
+package ru.ilya.zoo.service.impl;
 
 import org.junit.After;
 import org.junit.Before;
@@ -7,21 +7,20 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.jpa.repository.JpaRepository;
 import ru.ilya.zoo.exceptions.EntityNotFoundException;
-import ru.ilya.zoo.model.Keeper;
-import ru.ilya.zoo.repository.KeeperRepository;
+import ru.ilya.zoo.model.TestEntity;
 
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
-import static ru.ilya.zoo.utils.TestUtils.keeper;
 
-public class KeeperServiceTest {
+public class BaseServiceTest {
 
     @Mock
-    private KeeperRepository keeperRepository;
+    private JpaRepository<TestEntity, Long> repository;
 
     @InjectMocks
-    private KeeperService keeperService;
+    private TestEntityService baseService;
 
     @Before
     public void setUp() {
@@ -30,21 +29,21 @@ public class KeeperServiceTest {
 
     @After
     public void tearDown() {
-        reset(keeperRepository);
+        reset(repository);
     }
 
     @Test
     public void shouldDelete() {
-        Keeper keeper = keeper().setId(1L);
-        Mockito.when(keeperRepository.existsById(keeper.getId())).thenReturn(true);
+        TestEntity entity = new TestEntity().setId(1L);
+        Mockito.when(repository.existsById(entity.getId())).thenReturn(true);
 
-        keeperService.delete(keeper.getId());
-        verify(keeperRepository).existsById(keeper.getId());
-        verify(keeperRepository).deleteById(keeper.getId());
+        baseService.delete(entity.getId());
+        verify(repository).existsById(entity.getId());
+        verify(repository).deleteById(entity.getId());
     }
 
     @Test(expected = EntityNotFoundException.class)
     public void shouldThrowIfNotExists_whenDeleting() {
-        keeperService.delete(Long.MAX_VALUE);
+        baseService.delete(Long.MAX_VALUE);
     }
 }

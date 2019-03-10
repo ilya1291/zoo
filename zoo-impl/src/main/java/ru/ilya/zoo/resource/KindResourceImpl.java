@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.ilya.zoo.dto.kind.KindCreateDto;
 import ru.ilya.zoo.dto.kind.KindResponseDto;
 import ru.ilya.zoo.model.Kind;
-import ru.ilya.zoo.service.KindService;
+import ru.ilya.zoo.service.impl.KindService;
 
 import javax.validation.Valid;
 import java.util.List;
