@@ -1,7 +1,8 @@
 package ru.ilya.zoo.model;
 
 import lombok.Data;
-import ru.ilya.zoo.model.utils.BidirectionalUtils;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -20,10 +21,12 @@ public class Cage {
     @Column(name = "capacity")
     private Integer capacity;
 
-    @OneToMany(mappedBy = "cage")
+    @OneToMany
+    @JoinColumn(name = "cageId")
+    @LazyCollection(LazyCollectionOption.EXTRA)
     private Collection<Animal> animals = new HashSet<>();
 
-    public Cage setAnimals(Collection<Animal> newAnimals) {
-        return BidirectionalUtils.set(this, animals, newAnimals, Animal::setCage);
+    public boolean isFull() {
+        return animals.size() >= capacity;
     }
 }

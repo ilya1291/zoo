@@ -13,4 +13,10 @@ public class CageService extends BaseService<Cage> {
     public CageService(JpaRepository<Cage, Long> repository) {
         super(repository);
     }
+
+    public Cage getWithAnimals(Long cageId) {
+        Cage cage = super.getOne(cageId);
+        cage.getAnimals();
+        return cage;
+    }
 }

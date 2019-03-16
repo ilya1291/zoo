@@ -6,6 +6,7 @@ import ma.glasnost.orika.MapperFacade;
 import org.springframework.web.bind.annotation.RestController;
 import ru.ilya.zoo.dto.cage.CageCreateDto;
 import ru.ilya.zoo.dto.cage.CageResponseDto;
+import ru.ilya.zoo.dto.cage.CageWithAnimalsDto;
 import ru.ilya.zoo.model.Cage;
 import ru.ilya.zoo.service.impl.CageService;
 
@@ -33,12 +34,23 @@ public class CageResourceImpl implements CageResource {
 
     @Override
     public CageResponseDto getOne(Long cageId) {
-        log.debug("getOne - start");
+        log.debug("getOne - start: cageId = {}", cageId);
 
         Cage cage = cageService.getOne(cageId);
         CageResponseDto result = mapperFacade.map(cage, CageResponseDto.class);
 
         log.debug("getOne - end: result = {}", result);
+        return result;
+    }
+
+    @Override
+    public CageResponseDto getWithAnimals(Long cageId) {
+        log.debug("getWithAnimals - start: cageId = {}", cageId);
+
+        Cage cage = cageService.getWithAnimals(cageId);
+        CageWithAnimalsDto result = mapperFacade.map(cage, CageWithAnimalsDto.class);
+
+        log.debug("getWithAnimals - end: result = {}", result);
         return result;
     }
 

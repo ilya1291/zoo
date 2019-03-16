@@ -24,6 +24,11 @@ public interface CageResource {
     @ResponseStatus(HttpStatus.OK)
     CageResponseDto getOne(@PathVariable("cageId") Long cageId);
 
+    @GetMapping("/{cageId}/animals")
+    @ApiOperation("Get cage by id with animals")
+    @ResponseStatus(HttpStatus.OK)
+    CageResponseDto getWithAnimals(@PathVariable("cageId") Long cageId);
+
     @PostMapping
     @ApiOperation("Create new cage")
     @ResponseStatus(HttpStatus.CREATED)

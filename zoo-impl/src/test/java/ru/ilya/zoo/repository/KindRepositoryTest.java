@@ -27,7 +27,7 @@ public class KindRepositoryTest extends IntegrationTest {
         Kind kind = kindRepository.save(kindPredator("kind_name"));
         Keeper keeper = keeperRepository.save(keeper());
         Cage cage = cageRepository.save(new Cage());
-        Animal animal = animalRepository.save(animal("name", kind, cage, keeper));
+        Animal animal = animalRepository.save(animal("name", kind, cage.getId(), keeper));
 
         kindRepository.delete(kind);
 

@@ -35,9 +35,6 @@ public class Animal {
     @EqualsAndHashCode.Exclude
     private Keeper keeper;
 
-    @ManyToOne
-    @JoinColumn(name = "cage_id")
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-    private Cage cage;
+    @Column(name = "cageId")
+    private Long cageId;
 }

@@ -38,7 +38,7 @@ public class KindMapperConfigTest {
         assertEquals(expected, actual);
     }
 
-    private KindResponseDto kindResponseDto(Kind kind) {
+    public static KindResponseDto kindResponseDto(Kind kind) {
         return new KindResponseDto()
                 .setId(kind.getId())
                 .setName(kind.getName())

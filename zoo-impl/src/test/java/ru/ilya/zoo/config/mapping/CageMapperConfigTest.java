@@ -5,8 +5,14 @@ import org.junit.Before;
 import org.junit.Test;
 import ru.ilya.zoo.dto.cage.CageCreateDto;
 import ru.ilya.zoo.dto.cage.CageResponseDto;
+import ru.ilya.zoo.dto.cage.CageWithAnimalsDto;
+import ru.ilya.zoo.model.Animal;
 import ru.ilya.zoo.model.Cage;
 import ru.ilya.zoo.utils.MapperUtils;
+import ru.ilya.zoo.utils.TestUtils;
+
+import java.util.Collections;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 
@@ -35,9 +41,34 @@ public class CageMapperConfigTest {
         assertEquals(expected, actual);
     }
 
+    @Test
+    public void shouldMapCage_ToCageWithAnimalsDto() {
+        Animal animal = TestUtils.animal();
+        Cage cage = new Cage()
+                .setId(1L)
+                .setCapacity(2)
+                .setAnimals(Collections.singletonList(animal));
+
+        CageWithAnimalsDto expected = cageWithAnimalsDto(cage);
+        CageWithAnimalsDto actual = mapperFacade.map(cage, CageWithAnimalsDto.class);
+
+        assertEquals(expected, actual);
+    }
+
     private CageResponseDto cageResponseDto(Cage src) {
         return new CageResponseDto()
                 .setId(src.getId())
                 .setCapacity(src.getCapacity());
+    }
+
+    private CageWithAnimalsDto cageWithAnimalsDto(Cage src) {
+        return (CageWithAnimalsDto) new CageWithAnimalsDto()
+                .setAnimals(src.getAnimals().stream()
+                        .map(AnimalMapperConfigTest::animalResponseDto)
+                        .collect(Collectors.toList())
+                )
+                .setId(src.getId())
+                .setCapacity(src.getCapacity());
+
     }
 }

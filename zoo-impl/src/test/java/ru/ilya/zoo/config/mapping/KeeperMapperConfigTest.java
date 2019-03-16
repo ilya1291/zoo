@@ -38,7 +38,7 @@ public class KeeperMapperConfigTest {
         assertEquals(expected, actual);
     }
 
-    private KeeperResponseDto keeperResponseDto(Keeper src) {
+    public static KeeperResponseDto keeperResponseDto(Keeper src) {
         return new KeeperResponseDto()
                 .setId(src.getId())
                 .setFirstName(src.getFirstName())

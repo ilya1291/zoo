@@ -20,7 +20,7 @@ public class AnimalRepositoryTest extends IntegrationTest {
         Keeper keeper = save(keeper());
         Cage cage = save(new Cage());
 
-        Animal expected = animal("name", kind, cage, keeper);
+        Animal expected = animal("name", kind, cage.getId(), keeper);
         Animal actual = save(expected);
         expected.setId(actual.getId());
 
@@ -34,7 +34,7 @@ public class AnimalRepositoryTest extends IntegrationTest {
         Keeper keeper = save(keeper());
         Cage cage = save(new Cage());
 
-        save(animal("name", kind, cage, keeper),
-             animal("name", kind, cage, keeper));
+        save(animal("name", kind, cage.getId(), keeper),
+             animal("name", kind, cage.getId(), keeper));
     }
 }

@@ -9,12 +9,18 @@ import org.springframework.http.ResponseEntity;
 import ru.ilya.zoo.IntegrationTest;
 import ru.ilya.zoo.dto.cage.CageCreateDto;
 import ru.ilya.zoo.dto.cage.CageResponseDto;
+import ru.ilya.zoo.dto.cage.CageWithAnimalsDto;
+import ru.ilya.zoo.model.Animal;
 import ru.ilya.zoo.model.Cage;
+import ru.ilya.zoo.model.Keeper;
+import ru.ilya.zoo.model.Kind;
 
 import java.util.List;
 
 import static java.util.Collections.singletonList;
 import static org.junit.Assert.*;
+import static ru.ilya.zoo.utils.TestUtils.animal;
+import static ru.ilya.zoo.utils.TestUtils.keeper;
 
 public class CageResourceImplTest extends IntegrationTest {
 
@@ -61,6 +67,28 @@ public class CageResourceImplTest extends IntegrationTest {
                 Long.MAX_VALUE
         );
         assertEquals(response.getStatusCode(), HttpStatus.NOT_FOUND);
+    }
+
+    @Test
+    public void getWithAnimals() {
+        Kind kind = save(new Kind().setName("kind1"));
+        Cage cage = save(new Cage().setCapacity(10));
+        Keeper keeper = save(keeper());
+        Animal animal = save(animal(kind, cage.getId(), keeper));
+
+        cage.setAnimals(singletonList(animal));
+
+        CageWithAnimalsDto expected = mapperFacade.map(cage, CageWithAnimalsDto.class);
+
+        ResponseEntity<CageWithAnimalsDto> response = restTemplate.exchange(
+                BASE_URL + "/{cageId}/animals",
+                HttpMethod.GET,
+                null,
+                CageWithAnimalsDto.class,
+                cage.getId()
+        );
+        assertEquals(response.getStatusCode(), HttpStatus.OK);
+        assertEquals(expected, response.getBody());
     }
 
     @Test
