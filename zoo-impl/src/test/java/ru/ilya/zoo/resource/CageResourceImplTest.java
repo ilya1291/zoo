@@ -19,8 +19,7 @@ import java.util.List;
 
 import static java.util.Collections.singletonList;
 import static org.junit.Assert.*;
-import static ru.ilya.zoo.utils.TestUtils.animal;
-import static ru.ilya.zoo.utils.TestUtils.keeper;
+import static ru.ilya.zoo.utils.TestUtils.*;
 
 public class CageResourceImplTest extends IntegrationTest {
 
@@ -28,8 +27,7 @@ public class CageResourceImplTest extends IntegrationTest {
 
     @Test
     public void getAll() {
-        List<CageResponseDto> expected = mapperFacade.mapAsList(singletonList(save(new Cage().setCapacity(10))),
-                                                                CageResponseDto.class);
+        List<CageResponseDto> expected = mapperFacade.mapAsList(singletonList(save(cage())), CageResponseDto.class);
 
         ResponseEntity<List<CageResponseDto>> response = restTemplate.exchange(
                 BASE_URL,
@@ -43,8 +41,7 @@ public class CageResourceImplTest extends IntegrationTest {
 
     @Test
     public void getOne() {
-        CageResponseDto expected = mapperFacade.map(save(new Cage().setCapacity(10)),
-                                                         CageResponseDto.class);
+        CageResponseDto expected = mapperFacade.map(save(cage()), CageResponseDto.class);
 
         ResponseEntity<CageResponseDto> response = restTemplate.exchange(
                 BASE_URL + "/{cageId}",
@@ -72,12 +69,11 @@ public class CageResourceImplTest extends IntegrationTest {
     @Test
     public void getWithAnimals() {
         Kind kind = save(new Kind().setName("kind1"));
-        Cage cage = save(new Cage().setCapacity(10));
+        Cage cage = save(cage());
         Keeper keeper = save(keeper());
         Animal animal = save(animal(kind, cage.getId(), keeper));
 
         cage.setAnimals(singletonList(animal));
-
         CageWithAnimalsDto expected = mapperFacade.map(cage, CageWithAnimalsDto.class);
 
         ResponseEntity<CageWithAnimalsDto> response = restTemplate.exchange(

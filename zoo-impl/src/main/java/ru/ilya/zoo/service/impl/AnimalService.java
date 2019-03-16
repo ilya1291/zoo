@@ -19,25 +19,26 @@ public class AnimalService extends BaseService<Animal> {
 
     @Override
     public Animal create(Animal animal) {
-        Cage cage = cageService.getOne(animal.getCageId());
         Kind kind = kindService.getOne(animal.getKind().getId());
         Keeper keeper = keeperService.getOne(animal.getKeeper().getId());
-
         animal.setKind(kind)
-                .setCageId(cage.getId())
-                .setKeeper(keeper);
-
+              .setKeeper(keeper);
+        setCage(animal, animal.getCageId());
         return repository.save(animal);
     }
 
     public Animal moveToCage(Long cageId, Long animalId) {
+        Animal animal = getOne(animalId);
+        setCage(animal, cageId);
+        return repository.save(animal);
+    }
+
+    private Animal setCage(Animal animal, Long cageId) {
         Cage cage = cageService.getOne(cageId);
         if (cage.isFull()) {
-            throw new BadRequestException();
+            throw new BadRequestException(String.format("Cage with id = %d is already full", cageId));
         }
-        Animal animal = getOne(animalId);
-        animal.setCageId(cageId);
-        return repository.save(animal);
+        return animal.setCageId(cageId);
     }
 
     public AnimalService(JpaRepository<Animal, Long> repository,

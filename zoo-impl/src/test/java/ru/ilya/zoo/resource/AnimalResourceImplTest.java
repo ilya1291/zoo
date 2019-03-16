@@ -31,7 +31,7 @@ public class AnimalResourceImplTest extends IntegrationTest {
     @Before
     public void setUp() {
         Kind kind = save(new Kind().setName("kind1"));
-        Cage cage = save(new Cage().setCapacity(10));
+        Cage cage = save(cage());
         Keeper keeper = save(keeper());
         animal = save(animal(kind, cage.getId(), keeper));
     }
@@ -81,7 +81,7 @@ public class AnimalResourceImplTest extends IntegrationTest {
     public void create() {
         Kind kind = save(kind());
         Keeper keeper = save(keeper());
-        Cage cage = save(new Cage().setCapacity(10));
+        Cage cage = save(cage());
 
         AnimalCreateDto dto = new AnimalCreateDto()
                 .setName("new_animal")
@@ -104,8 +104,30 @@ public class AnimalResourceImplTest extends IntegrationTest {
     }
 
     @Test
+    public void shouldNotCreateAnimal_InFullCage() {
+        Kind kind = save(kind());
+        Keeper keeper = save(keeper());
+        Cage cage = save(cage(0));
+
+        AnimalCreateDto dto = new AnimalCreateDto()
+                .setName("new_animal")
+                .setBirthDate(LocalDate.now())
+                .setCageId(cage.getId())
+                .setKindId(kind.getId())
+                .setKeeperId(keeper.getId());
+
+        ResponseEntity<AnimalResponseDto> response = restTemplate.exchange(
+                BASE_URL,
+                HttpMethod.POST,
+                new HttpEntity<>(dto),
+                AnimalResponseDto.class
+        );
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
+    @Test
     public void shouldMoveToCage() {
-        Cage newCage = save(new Cage().setCapacity(10));
+        Cage newCage = save(cage());
 
         ResponseEntity<AnimalResponseDto> response = restTemplate.exchange(
                 BASE_URL + "/{animalId}/cage/{cageId}",
@@ -148,7 +170,7 @@ public class AnimalResourceImplTest extends IntegrationTest {
 
     @Test
     public void shouldNotMoveTo_FullCage() {
-        Cage newCage = save(new Cage().setCapacity(0));
+        Cage newCage = save(cage(0));
 
         ResponseEntity<String> response = restTemplate.exchange(
                 BASE_URL + "/{animalId}/cage/{cageId}",

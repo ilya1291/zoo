@@ -2,6 +2,7 @@ package ru.ilya.zoo.utils;
 
 import lombok.experimental.UtilityClass;
 import ru.ilya.zoo.model.Animal;
+import ru.ilya.zoo.model.Cage;
 import ru.ilya.zoo.model.Keeper;
 import ru.ilya.zoo.model.Kind;
 
@@ -49,5 +50,13 @@ public class TestUtils {
         return new Keeper()
                 .setFirstName("first_name")
                 .setLastName("last_name");
+    }
+
+    public static Cage cage() {
+        return cage(10);
+    }
+
+    public static Cage cage(Integer capacity) {
+        return new Cage().setCapacity(capacity);
     }
 }

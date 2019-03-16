@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
+import static ru.ilya.zoo.utils.TestUtils.cage;
 
 public class CageMapperConfigTest {
 
@@ -36,7 +37,7 @@ public class CageMapperConfigTest {
     @Test
     public void shouldMapCreateDto_ToCage() {
         CageCreateDto createDto = new CageCreateDto(10);
-        Cage expected = new Cage().setCapacity(createDto.getCapacity());
+        Cage expected = cage(createDto.getCapacity());
         Cage actual = mapperFacade.map(createDto, Cage.class);
         assertEquals(expected, actual);
     }
@@ -44,9 +45,8 @@ public class CageMapperConfigTest {
     @Test
     public void shouldMapCage_ToCageWithAnimalsDto() {
         Animal animal = TestUtils.animal();
-        Cage cage = new Cage()
+        Cage cage = cage()
                 .setId(1L)
-                .setCapacity(2)
                 .setAnimals(Collections.singletonList(animal));
 
         CageWithAnimalsDto expected = cageWithAnimalsDto(cage);
