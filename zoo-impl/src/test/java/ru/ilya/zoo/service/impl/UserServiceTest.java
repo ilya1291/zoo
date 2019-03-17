@@ -1,5 +1,6 @@
 package ru.ilya.zoo.service.impl;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -10,15 +11,17 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import ru.ilya.zoo.exceptions.EntityAlreadyExistsException;
 import ru.ilya.zoo.exceptions.EntityNotFoundException;
+import ru.ilya.zoo.model.Role;
+import ru.ilya.zoo.model.RoleName;
 import ru.ilya.zoo.model.User;
 import ru.ilya.zoo.repository.UserRepository;
 import ru.ilya.zoo.security.JwtTokenProvider;
 
 import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.when;
 import static ru.ilya.zoo.utils.TestObjects.user;
 
@@ -28,6 +31,8 @@ public class UserServiceTest {
 
     @Mock
     private UserRepository userRepository;
+    @Mock
+    private RoleService roleService;
     @Mock
     private JwtTokenProvider tokenProvider;
     @Mock
@@ -42,6 +47,11 @@ public class UserServiceTest {
 
         user = user().setId(1L);
         when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
+    }
+
+    @After
+    public void tearDown() {
+        reset(userRepository, roleService, tokenProvider, authenticationManager);
     }
 
     @Test
@@ -72,7 +82,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void test() {
+    public void testAuthentication() {
         String expectedToken = "token";
         UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
         when(authenticationManager.authenticate(any(Authentication.class))).thenReturn(auth);
@@ -80,5 +90,16 @@ public class UserServiceTest {
 
         String token = userService.authenticate(user.getUsername(), user.getPassword());
         assertEquals(expectedToken, token);
+    }
+
+    @Test
+    public void testAssignRole() {
+        Role role = new Role()
+                .setId(1L)
+                .setName(RoleName.ROLE_ADMIN);
+        when(roleService.getByName(RoleName.ROLE_ADMIN)).thenReturn(role);
+        User result = userService.assignRole(1L, RoleName.ROLE_ADMIN);
+
+        assertTrue(result.getRoles().contains(role));
     }
 }
