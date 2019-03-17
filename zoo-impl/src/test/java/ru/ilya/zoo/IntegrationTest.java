@@ -10,14 +10,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.support.TransactionTemplate;
 import ru.ilya.zoo.config.SecurityConfig;
-import ru.ilya.zoo.model.Animal;
-import ru.ilya.zoo.model.Cage;
-import ru.ilya.zoo.model.Keeper;
-import ru.ilya.zoo.model.Kind;
-import ru.ilya.zoo.repository.AnimalRepository;
-import ru.ilya.zoo.repository.CageRepository;
-import ru.ilya.zoo.repository.KeeperRepository;
-import ru.ilya.zoo.repository.KindRepository;
+import ru.ilya.zoo.model.*;
+import ru.ilya.zoo.repository.*;
 
 import java.util.Arrays;
 import java.util.function.Supplier;
@@ -39,6 +33,12 @@ public abstract class IntegrationTest {
     protected MapperFacade mapperFacade;
 
     @Autowired
+    protected UserRepository userRepository;
+
+    @Autowired
+    protected RoleRepository roleRepository;
+
+    @Autowired
     protected KeeperRepository keeperRepository;
 
     @Autowired
@@ -56,6 +56,7 @@ public abstract class IntegrationTest {
 
     @After
     public final void clearAllRepositories() {
+        userRepository.deleteAll();
         animalRepository.deleteAll();
         keeperRepository.deleteAll();
         cageRepository.deleteAll();
@@ -73,6 +74,9 @@ public abstract class IntegrationTest {
         });
     }
 
+    protected User save(User user) {
+        return doInTransaction(() -> userRepository.save(user));
+    }
     protected Keeper save(Keeper keeper) {
         return doInTransaction(() -> keeperRepository.save(keeper));
     }

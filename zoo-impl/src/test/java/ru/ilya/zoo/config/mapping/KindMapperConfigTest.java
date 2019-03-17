@@ -9,7 +9,7 @@ import ru.ilya.zoo.model.Kind;
 import ru.ilya.zoo.utils.MapperUtils;
 
 import static org.junit.Assert.assertEquals;
-import static ru.ilya.zoo.utils.TestUtils.kind;
+import static ru.ilya.zoo.utils.TestObjects.kind;
 
 public class KindMapperConfigTest {
 

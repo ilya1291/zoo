@@ -1,11 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
 <databaseChangeLog
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
-    <include file="v1.0_01_schema_init.xml" relativeToChangelogFile="true"/>
-    <include file="v1.0_02_load_roles.xml" relativeToChangelogFile="true"/>
+    <changeSet id="v1.2.0.0" author="Ilya_Polyakov">
+        <loadUpdateData tableName="role" primaryKey="id" file="data/roles.csv"/>
+    </changeSet>
 
 </databaseChangeLog>

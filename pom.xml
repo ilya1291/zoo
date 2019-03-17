@@ -34,6 +34,7 @@
         <swagger.version>2.9.2</swagger.version>
         <orika.version>1.5.4</orika.version>
         <orika-spring-boot.version>1.8.0</orika-spring-boot.version>
+        <jjwt.version>0.7.0</jjwt.version>
     </properties>
 
     <dependencyManagement>
@@ -63,6 +64,11 @@
                 <groupId>net.rakugakibox.spring.boot</groupId>
                 <artifactId>orika-spring-boot-starter</artifactId>
                 <version>${orika-spring-boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>${jjwt.version}</version>
             </dependency>
 
             <!-- ru.ilya -->

@@ -20,7 +20,7 @@ import java.util.List;
 
 import static java.util.Collections.singletonList;
 import static org.junit.Assert.*;
-import static ru.ilya.zoo.utils.TestUtils.*;
+import static ru.ilya.zoo.utils.TestObjects.*;
 
 public class AnimalResourceImplTest extends IntegrationTest {
 
@@ -130,7 +130,7 @@ public class AnimalResourceImplTest extends IntegrationTest {
         Cage newCage = save(cage());
 
         ResponseEntity<AnimalResponseDto> response = restTemplate.exchange(
-                BASE_URL + "/{animalId}/cage/{cageId}",
+                BASE_URL + "/{animalId}/cages/{cageId}",
                 HttpMethod.PUT,
                 null,
                 AnimalResponseDto.class,
@@ -147,7 +147,7 @@ public class AnimalResourceImplTest extends IntegrationTest {
     @Test
     public void shouldNotMove_ToNotExistingCage() {
         ResponseEntity<String> response = restTemplate.exchange(
-                BASE_URL + "/{animalId}/cage/{cageId}",
+                BASE_URL + "/{animalId}/cages/{cageId}",
                 HttpMethod.PUT,
                 null,
                 String.class,
@@ -159,7 +159,7 @@ public class AnimalResourceImplTest extends IntegrationTest {
     @Test
     public void shouldNotMove_NotExistingAnimal() {
         ResponseEntity<String> response = restTemplate.exchange(
-                BASE_URL + "/{animalId}/cage/{cageId}",
+                BASE_URL + "/{animalId}/cages/{cageId}",
                 HttpMethod.PUT,
                 null,
                 String.class,
@@ -173,7 +173,7 @@ public class AnimalResourceImplTest extends IntegrationTest {
         Cage newCage = save(cage(0));
 
         ResponseEntity<String> response = restTemplate.exchange(
-                BASE_URL + "/{animalId}/cage/{cageId}",
+                BASE_URL + "/{animalId}/cages/{cageId}",
                 HttpMethod.PUT,
                 null,
                 String.class,

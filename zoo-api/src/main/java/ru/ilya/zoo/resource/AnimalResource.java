@@ -29,7 +29,7 @@ public interface AnimalResource {
     @ResponseStatus(HttpStatus.CREATED)
     AnimalResponseDto create(@RequestBody @Valid AnimalCreateDto dto);
 
-    @PutMapping("/{animalId}/cage/{cageId}")
+    @PutMapping("/{animalId}/cages/{cageId}")
     @ApiOperation("Move animal to another cage")
     @ResponseStatus(HttpStatus.OK)
     AnimalResponseDto moveToCage(@PathVariable("animalId") Long animalId,

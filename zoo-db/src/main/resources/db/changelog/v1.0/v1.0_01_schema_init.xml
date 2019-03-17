@@ -205,4 +205,186 @@
                                  referencedColumnNames="id" />
     </changeSet>
 
+    <!-- user -->
+
+    <changeSet id="v1.0.0.15" author="Ilia_Poliakov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <sequenceExists sequenceName="user_id_seq"/>
+            </not>
+        </preConditions>
+        <createSequence sequenceName="user_id_seq"/>
+    </changeSet>
+
+    <changeSet id="v1.0.0.16" author="Ilia_Poliakov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="user"/>
+            </not>
+        </preConditions>
+        <createTable tableName="user">
+            <column name="id" type="BIGINT" defaultValueSequenceNext="user_id_seq">
+                <constraints nullable="false"/>
+            </column>
+            <column name="username" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password_hash" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="v1.0.0.17" author="Ilia_Poliakov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <primaryKeyExists primaryKeyName="user_id_pk"/>
+            </not>
+        </preConditions>
+        <addPrimaryKey tableName="user"
+                       columnNames="id"
+                       constraintName="user_id_pk"/>
+    </changeSet>
+
+    <changeSet id="v1.0.0.18" author="Ilia_Poliakov">
+        <preConditions onFail="MARK_RAN">
+            <or>
+                <and>
+                    <dbms type="postgresql"/>
+                    <sqlCheck expectedResult="0">
+                        select count (*) from pg_constraint where conname='user_email_uk'
+                    </sqlCheck>
+                    <columnExists tableName="user" columnName="email" />
+                </and>
+                <dbms type="h2"/>
+            </or>
+        </preConditions>
+        <addUniqueConstraint tableName="user"
+                             columnNames="email"
+                             constraintName="user_email_uk" />
+    </changeSet>
+
+    <changeSet id="v1.0.0.19" author="Ilia_Poliakov">
+        <preConditions onFail="MARK_RAN">
+            <or>
+                <and>
+                    <dbms type="postgresql"/>
+                    <sqlCheck expectedResult="0">
+                        select count (*) from pg_constraint where conname='user_login_uk'
+                    </sqlCheck>
+                    <columnExists tableName="user" columnName="username" />
+                </and>
+                <dbms type="h2"/>
+            </or>
+        </preConditions>
+        <addUniqueConstraint tableName="user"
+                             columnNames="username"
+                             constraintName="user_login_uk" />
+    </changeSet>
+
+    <!-- role -->
+
+    <changeSet id="v1.0.0.21" author="Ilia_Poliakov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="role"/>
+            </not>
+        </preConditions>
+        <createTable tableName="role">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="v1.0.0.22" author="Ilia_Poliakov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <primaryKeyExists primaryKeyName="role_id_pk"/>
+            </not>
+        </preConditions>
+        <addPrimaryKey tableName="role"
+                       columnNames="id"
+                       constraintName="role_id_pk"/>
+    </changeSet>
+
+    <changeSet id="v1.0.0.23" author="Ilia_Poliakov">
+        <preConditions onFail="MARK_RAN">
+            <or>
+                <and>
+                    <dbms type="postgresql"/>
+                    <sqlCheck expectedResult="0">
+                        select count (*) from pg_constraint where conname='role_name_uk'
+                    </sqlCheck>
+                    <columnExists tableName="role" columnName="name" />
+                </and>
+                <dbms type="h2"/>
+            </or>
+        </preConditions>
+        <addUniqueConstraint tableName="role"
+                             columnNames="name"
+                             constraintName="role_name_uk" />
+    </changeSet>
+
+    <!-- user role -->
+
+    <changeSet id="v1.0.0.24" author="Ilia_Poliakov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <sequenceExists sequenceName="user_roles_id_seq"/>
+            </not>
+        </preConditions>
+        <createSequence sequenceName="user_roles_id_seq"/>
+    </changeSet>
+
+    <changeSet id="v1.0.0.25" author="Ilia_Poliakov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="user_roles"/>
+            </not>
+        </preConditions>
+        <createTable tableName="user_roles">
+            <column name="id" type="BIGINT" defaultValueSequenceNext="user_roles_id_seq">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="v1.0.0.26" author="Ilia_Poliakov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists foreignKeyName="user_role_user_fk"/>
+            </not>
+        </preConditions>
+        <addForeignKeyConstraint baseTableName="user_roles"
+                                 baseColumnNames="user_id"
+                                 constraintName="user_role_user_fk"
+                                 referencedTableName="user"
+                                 referencedColumnNames="id" />
+    </changeSet>
+    <changeSet id="v1.0.0.27" author="Ilia_Poliakov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists foreignKeyName="user_roles_role_fk"/>
+            </not>
+        </preConditions>
+        <addForeignKeyConstraint baseTableName="user_roles"
+                                 baseColumnNames="role_id"
+                                 constraintName="user_roles_role_fk"
+                                 referencedTableName="role"
+                                 referencedColumnNames="id" />
+    </changeSet>
+
 </databaseChangeLog>

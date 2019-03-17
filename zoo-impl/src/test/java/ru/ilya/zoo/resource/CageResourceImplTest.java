@@ -19,7 +19,7 @@ import java.util.List;
 
 import static java.util.Collections.singletonList;
 import static org.junit.Assert.*;
-import static ru.ilya.zoo.utils.TestUtils.*;
+import static ru.ilya.zoo.utils.TestObjects.*;
 
 public class CageResourceImplTest extends IntegrationTest {
 

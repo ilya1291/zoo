@@ -9,13 +9,13 @@ import ru.ilya.zoo.dto.cage.CageWithAnimalsDto;
 import ru.ilya.zoo.model.Animal;
 import ru.ilya.zoo.model.Cage;
 import ru.ilya.zoo.utils.MapperUtils;
-import ru.ilya.zoo.utils.TestUtils;
+import ru.ilya.zoo.utils.TestObjects;
 
 import java.util.Collections;
 import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
-import static ru.ilya.zoo.utils.TestUtils.cage;
+import static ru.ilya.zoo.utils.TestObjects.cage;
 
 public class CageMapperConfigTest {
 
@@ -44,7 +44,7 @@ public class CageMapperConfigTest {
 
     @Test
     public void shouldMapCage_ToCageWithAnimalsDto() {
-        Animal animal = TestUtils.animal();
+        Animal animal = TestObjects.animal();
         Cage cage = cage()
                 .setId(1L)
                 .setAnimals(Collections.singletonList(animal));

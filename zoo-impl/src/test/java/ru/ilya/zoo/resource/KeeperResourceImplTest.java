@@ -15,7 +15,7 @@ import java.util.List;
 
 import static java.util.Collections.singletonList;
 import static org.junit.Assert.*;
-import static ru.ilya.zoo.utils.TestUtils.keeper;
+import static ru.ilya.zoo.utils.TestObjects.keeper;
 
 public class KeeperResourceImplTest extends IntegrationTest {
 

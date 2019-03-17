@@ -8,7 +8,7 @@ import ru.ilya.zoo.model.Keeper;
 import ru.ilya.zoo.model.Kind;
 
 import static org.junit.Assert.*;
-import static ru.ilya.zoo.utils.TestUtils.*;
+import static ru.ilya.zoo.utils.TestObjects.*;
 
 public class KindRepositoryTest extends IntegrationTest {
 

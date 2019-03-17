@@ -9,7 +9,7 @@ import ru.ilya.zoo.model.Animal;
 import ru.ilya.zoo.model.Keeper;
 import ru.ilya.zoo.model.Kind;
 import ru.ilya.zoo.utils.MapperUtils;
-import ru.ilya.zoo.utils.TestUtils;
+import ru.ilya.zoo.utils.TestObjects;
 
 import java.time.LocalDate;
 
@@ -28,7 +28,7 @@ public class AnimalMapperConfigTest {
 
     @Test
     public void shouldMapAnimal_toAnimalResponseDto() {
-        Animal animal = TestUtils.animal();
+        Animal animal = TestObjects.animal();
         AnimalResponseDto expected = animalResponseDto(animal);
         AnimalResponseDto actual = mapperFacade.map(animal, AnimalResponseDto.class);
         assertEquals(expected, actual);

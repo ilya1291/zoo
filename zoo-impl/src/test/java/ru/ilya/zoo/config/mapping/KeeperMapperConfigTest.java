@@ -9,7 +9,7 @@ import ru.ilya.zoo.model.Keeper;
 import ru.ilya.zoo.utils.MapperUtils;
 
 import static org.junit.Assert.assertEquals;
-import static ru.ilya.zoo.utils.TestUtils.keeper;
+import static ru.ilya.zoo.utils.TestObjects.keeper;
 
 public class KeeperMapperConfigTest {
 

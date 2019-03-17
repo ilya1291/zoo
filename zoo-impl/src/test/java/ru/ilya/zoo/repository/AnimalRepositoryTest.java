@@ -10,7 +10,7 @@ import ru.ilya.zoo.model.Kind;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static ru.ilya.zoo.utils.TestUtils.*;
+import static ru.ilya.zoo.utils.TestObjects.*;
 
 public class AnimalRepositoryTest extends IntegrationTest {
 

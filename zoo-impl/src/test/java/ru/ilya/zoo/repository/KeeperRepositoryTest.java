@@ -6,7 +6,7 @@ import ru.ilya.zoo.model.Keeper;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static ru.ilya.zoo.utils.TestUtils.keeper;
+import static ru.ilya.zoo.utils.TestObjects.keeper;
 
 public class KeeperRepositoryTest extends IntegrationTest {
 

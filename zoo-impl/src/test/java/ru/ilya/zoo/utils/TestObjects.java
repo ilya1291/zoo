@@ -1,15 +1,27 @@
 package ru.ilya.zoo.utils;
 
 import lombok.experimental.UtilityClass;
-import ru.ilya.zoo.model.Animal;
-import ru.ilya.zoo.model.Cage;
-import ru.ilya.zoo.model.Keeper;
-import ru.ilya.zoo.model.Kind;
+import ru.ilya.zoo.model.*;
 
 import java.time.LocalDate;
 
 @UtilityClass
-public class TestUtils {
+public class TestObjects {
+
+    public static User user(String username, String email) {
+        return new User()
+                .setUsername(username)
+                .setEmail(email)
+                .setPassword("password");
+    }
+
+    public static User user(long id) {
+        return user().setId(id);
+    }
+
+    public static User user() {
+        return user("user", "user@email.com");
+    }
 
     public static Animal animal() {
         return new Animal()

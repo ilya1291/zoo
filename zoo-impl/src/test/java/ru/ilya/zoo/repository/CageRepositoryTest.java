@@ -6,7 +6,7 @@ import ru.ilya.zoo.model.Cage;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static ru.ilya.zoo.utils.TestUtils.cage;
+import static ru.ilya.zoo.utils.TestObjects.cage;
 
 public class CageRepositoryTest extends IntegrationTest {
 
