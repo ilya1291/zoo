@@ -1,0 +1,3 @@
+id,username,email,password_hash
+1,admin1,admin1@zoo.com,$2a$10$l3fUspzkR01K2Ti9okbycONgTolJBlQTH0aX/CCbxu1ACqGP0wkYK
+2,manager1,manager1@zoo.com,$2a$10$zIzGIaKDHkObSjw.gvjrHutWxMY3ErxDbgtHNvI2Gt5aKPZpVHjvm

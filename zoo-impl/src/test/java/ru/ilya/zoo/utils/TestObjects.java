@@ -4,9 +4,16 @@ import lombok.experimental.UtilityClass;
 import ru.ilya.zoo.model.*;
 
 import java.time.LocalDate;
+import java.util.Collection;
 
 @UtilityClass
 public class TestObjects {
+
+    public static User user(String username, String email, String password, Collection<Role> roles) {
+        return user(username, email)
+                .setPassword(password)
+                .setRoles(roles);
+    }
 
     public static User user(String username, String email) {
         return new User()

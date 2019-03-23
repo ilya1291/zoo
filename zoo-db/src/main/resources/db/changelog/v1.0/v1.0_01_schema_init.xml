@@ -213,7 +213,8 @@
                 <sequenceExists sequenceName="user_id_seq"/>
             </not>
         </preConditions>
-        <createSequence sequenceName="user_id_seq"/>
+        <createSequence sequenceName="user_id_seq"
+                        startValue="10"/>
     </changeSet>
 
     <changeSet id="v1.0.0.16" author="Ilia_Poliakov">
@@ -340,7 +341,8 @@
                 <sequenceExists sequenceName="user_roles_id_seq"/>
             </not>
         </preConditions>
-        <createSequence sequenceName="user_roles_id_seq"/>
+        <createSequence sequenceName="user_roles_id_seq"
+                        startValue="10"/>
     </changeSet>
 
     <changeSet id="v1.0.0.25" author="Ilia_Poliakov">

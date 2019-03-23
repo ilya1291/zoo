@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import ru.ilya.zoo.dto.auth.JwtDto;
 import ru.ilya.zoo.dto.auth.LoginDto;
-import ru.ilya.zoo.dto.auth.SignUpDto;
-import ru.ilya.zoo.dto.auth.UserDto;
 
 import javax.validation.Valid;
 
@@ -18,13 +16,8 @@ import javax.validation.Valid;
 @RequestMapping("auth")
 public interface AuthResource {
 
-    @PostMapping("/signin")
-    @ApiOperation("Sign in")
+    @PostMapping("/login")
+    @ApiOperation("Login")
     @ResponseStatus(HttpStatus.OK)
-    JwtDto signIn(@Valid @RequestBody LoginDto dto);
-
-    @PostMapping("/signup")
-    @ApiOperation("Sign up")
-    @ResponseStatus(HttpStatus.CREATED)
-    UserDto signUp(@Valid @RequestBody SignUpDto dto);
+    JwtDto login(@Valid @RequestBody LoginDto dto);
 }

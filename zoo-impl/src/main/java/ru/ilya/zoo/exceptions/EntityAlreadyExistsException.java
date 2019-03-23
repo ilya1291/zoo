@@ -11,6 +11,6 @@ public class EntityAlreadyExistsException extends RuntimeException {
     }
 
     public EntityAlreadyExistsException(String searchSubject, Class entityClass) {
-        this(String.format("%s with %s not found", entityClass.getSimpleName(), searchSubject));
+        this(String.format("%s with %s already exists", entityClass.getSimpleName(), searchSubject));
     }
 }

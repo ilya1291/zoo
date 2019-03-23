@@ -18,7 +18,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.List;
 
+import static com.google.common.base.Predicates.or;
 import static java.util.Collections.singletonList;
+import static springfox.documentation.builders.PathSelectors.regex;
 
 @Profile("!test")
 @EnableSwagger2
@@ -64,7 +66,10 @@ public class SwaggerConfig {
     private SecurityContext securityContext() {
         return SecurityContext.builder()
                 .securityReferences(defaultAuth())
-                .forPaths(PathSelectors.regex("/api.*"))
+                .forPaths(or(
+                        regex("/api.*"),
+                        regex("/admin.*"))
+                )
                 .build();
     }
 

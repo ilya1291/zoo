@@ -26,17 +26,19 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
         User user = userRepository.findByUsernameOrEmail(usernameOrEmail)
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("User with username or email '%s' not found", usernameOrEmail)));
-
-        return new UserDetails()
-                .setAuthorities(mapRolesToAuthorities(user.getRoles()))
-                .setUser(user);
+        return userDetails(user);
     }
 
     public UserDetails loadUserById(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("User with id '%s' not found : ", id)));
+        return userDetails(user);
+    }
 
-        return new UserDetails().setUser(user);
+    private UserDetails userDetails(User user) {
+        return new UserDetails()
+                .setUser(user)
+                .setAuthorities(mapRolesToAuthorities(user.getRoles()));
     }
 
     private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles){

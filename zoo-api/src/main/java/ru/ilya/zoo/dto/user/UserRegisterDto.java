@@ -1,4 +1,4 @@
-package ru.ilya.zoo.dto.auth;
+package ru.ilya.zoo.dto.user;
 
 import lombok.Data;
 
@@ -7,7 +7,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Data
-public class SignUpDto {
+public class UserRegisterDto {
 
     @Size(min = 5, max = 50)
     private String username;

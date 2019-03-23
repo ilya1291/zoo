@@ -179,6 +179,7 @@
                     <excludes>
                         <exclude>**/SwaggerConfig.*</exclude>
                         <exclude>**/SecurityConfig.*</exclude>
+                        <exclude>**/ZooApplication.*</exclude>
                     </excludes>
                 </configuration>
                 <executions>

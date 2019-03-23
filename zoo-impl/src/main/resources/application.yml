@@ -11,16 +11,6 @@ jwt:
   secret: JWTSuperSecretKey
   expirationInMs: 604800000
 
-default-users:
-  admin:
-    name: Admin1
-    password: 123456
-    email: admin1@zoo.com
-  manager:
-    name: Manager1
-    password: 123456
-    email: manager1@zoo.com
-
 spring:
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQL95Dialect

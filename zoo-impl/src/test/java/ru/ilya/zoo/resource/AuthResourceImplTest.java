@@ -9,10 +9,11 @@ import org.springframework.util.StringUtils;
 import ru.ilya.zoo.IntegrationTest;
 import ru.ilya.zoo.dto.auth.JwtDto;
 import ru.ilya.zoo.dto.auth.LoginDto;
-import ru.ilya.zoo.dto.auth.SignUpDto;
-import ru.ilya.zoo.dto.auth.UserDto;
+import ru.ilya.zoo.model.Role;
+import ru.ilya.zoo.model.RoleName;
 import ru.ilya.zoo.model.User;
 
+import static java.util.Collections.singletonList;
 import static org.junit.Assert.*;
 import static ru.ilya.zoo.utils.TestObjects.user;
 
@@ -21,35 +22,14 @@ public class AuthResourceImplTest extends IntegrationTest {
     private static final String BASE_URL = "/auth";
 
     @Test
-    public void signUp() {
-        SignUpDto dto = new SignUpDto()
-                .setUsername("new_user")
-                .setEmail("new_user@email.com")
-                .setPassword("password");
+    public void login() {
+        final String password = "123456";
+        Role roleAdmin = roleRepository.findByName(RoleName.ROLE_ADMIN).get();
+        User user = save(user("admin", "admin@zoo.com",passwordEncoder.encode(password), singletonList(roleAdmin)));
 
-        ResponseEntity<UserDto> response = restTemplate.exchange(
-                BASE_URL + "/signup",
-                HttpMethod.POST,
-                new HttpEntity<>(dto),
-                UserDto.class
-        );
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        UserDto result = response.getBody();
-
-        assertEquals(dto.getEmail(), result.getEmail());
-        assertEquals(dto.getUsername(), result.getUsername());
-        assertTrue(userRepository.existsByEmail(dto.getEmail()));
-        assertTrue(userRepository.existsByUsername(dto.getUsername()));
-    }
-
-    @Test
-    public void signIn() {
-        String passwordHash = "$2a$10$J6/jkT8ETTEBBmCc.zPdM./96p55wzqOvqcl.rwLHkr0/fj3J7Hn6";
-        User user = save(user("existing_user", "user@email.com").setPassword(passwordHash));
-
-        LoginDto dto = new LoginDto(user.getUsername(), "password");
+        LoginDto dto = new LoginDto(user.getUsername(), password);
         ResponseEntity<JwtDto> response = restTemplate.exchange(
-                BASE_URL + "/signin",
+                BASE_URL + "/login",
                 HttpMethod.POST,
                 new HttpEntity<>(dto),
                 JwtDto.class
@@ -64,7 +44,7 @@ public class AuthResourceImplTest extends IntegrationTest {
     public void shouldNotLogin() {
         LoginDto dto = new LoginDto("non_registered_user", "password");
         ResponseEntity<String> response = restTemplate.exchange(
-                BASE_URL + "/signin",
+                BASE_URL + "/login",
                 HttpMethod.POST,
                 new HttpEntity<>(dto),
                 String.class
