@@ -1,0 +1,28 @@
+services:
+  - docker
+
+language: java
+jdk: oraclejdk8
+
+install: true
+
+script:
+  - mvn clean install
+  - bash <(curl -s https://codecov.io/bash)
+
+cache:
+  directories:
+  - $HOME/.m2
+
+env:
+  global:
+    - COMMIT=${TRAVIS_COMMIT::8}
+    - secure: "O9cNGozXRd2r+nO9UlkPtEGxQwtiTOt83K4bwJ/U079pUYKE178m7r6qWFmPtdlMCivlAfEVycoPaeaYwsws8Rg2UjJpyQR0kpHXIDVELFGS3+wvFl0mqKRBGiuug8pQSCYEa5WWP+h3X0riBR2Jzv8a9DuAZgC6HXKofwEfEEd3LnUTRKoe0EV38Qll7UtRTcu4zx3lSBfIc7Wag5ylXQBzBfOT4fXig2VxDfx1U+9J3s1WSgupUGuOSFoNpKvR3/xaNOAc2g376sk8dBpy0HSA1MwAt9tIyWduXxmrQ7CR7hO2bcY2ga0ZDnPS2eqMdPyq58Ds3XsAIwQGiNUq3n12nxskxHBvGXFud59Wfh04+kMc/sNO8cWQkWLdDILaz7Jih49vZgO1OcCVe5ufe3shmydSL2XW0TQyfjsjMxXaClnsE4qITzrEq9Udxtghjm1J1dPbCQumtExBhsHTZ/525cXUjXDCSDHiegC85TFrCRoPJTogdK7YZ8WeGEwsqiHJFtxs32Day4BiC2BjaVzcHRVupOSYrSYE/C8EWd4p+uLgbDg8XAnXUJP/uQtC3z9NbiDsHNZdrB3Tibau0DMmCAPUxhmbIkX6ttqZwhKgpV8i4InCQ5Fh0u+fLiFtOnBZV8jLf93eq5ysItowDZSW2DNOsXk9Nw1Fk3Dne7g=" #DOCKER_USER
+    - secure: "JxiJz1NcezV68lN56wyk2jT5L2QiNQ1N/cjag7TMfjdz7WlDZRmIxBZtel1SOR+376GW2Bcf+SoLF4EiI7Sf9TtvoSJRy+euoPpbjF4jHt9GS9/yas4E00Nuatr70Pjz9vynIFklqiHekUfBXTwDh8Dd1CronpIBCUfGU0HYr8C4fI7aE9AQ5nHY870QPPrMZaC88zHaXnNlISwYEcXdVVCfvdxDu5sk/xn/60+WTF9ZxjUr/aT3u7rmTR0rf+N7YZ0iRk1uGiPupYrJL1UPy6vCRW7qGPE14fu5ihtilQFYwkld1huQqUUQ8XS12lnIBsF3kGgP0JVTMf+ALvGg/6lSbsm04CJcMxkJ3oLZKyQ2ip67FVYF90QDXYjlb2Y0+ibtSL3Jm4tkeE2UCelZ+PpVLtm0XTLDkfYt375GlSIIHSidpEH9+f2EsNrWipU0uh3JKRuubv3cEZe8RW0ntwHv3nBcCTQlcX9cd+Ar7fYcs3tjC3LCY1imah55P6p5pINToEslxkgdb6hOOxjME8vm8YkCuI/FDnOmVOR0BHItaIjgVVkq6KoO4MRp52QXe7eAogOkpcDwnK1rBZASyexs+46HrpSqyjxHUTdM3NVIAyaeWgzfd2bWlQw/+wyeYT9A8IN4xGVgtuiLvPovMxjc1QyzKnHT9cy8ogw+qqo=" #DOCKER_PASS
+
+after_success:
+  - docker login -u $DOCKER_USER -p $DOCKER_PASS
+  - export REPO=amaksimov/c2_vm_ws
+  - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
+  - docker build --pull=true --force-rm -t $DOCKER_USER/$REPO:$COMMIT .
+  - docker push $REPO
