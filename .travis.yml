@@ -24,5 +24,5 @@ after_success:
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
   - export REPO=iliapoliakov/zoo
   - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
-  - docker build --pull=true --force-rm -t $DOCKER_USER/$REPO:$COMMIT .
+  - docker build --pull=true --force-rm -t $REPO:$COMMIT .
   - docker push $REPO
