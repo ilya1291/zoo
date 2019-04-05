@@ -3,10 +3,13 @@ package ru.ilya.zoo.resource;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import ru.ilya.zoo.IntegrationTest;
 import ru.ilya.zoo.dto.animal.AnimalCreateDto;
 import ru.ilya.zoo.dto.animal.AnimalResponseDto;
@@ -205,5 +208,33 @@ public class AnimalResourceImplTest extends IntegrationTest {
                 Long.MAX_VALUE
         );
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+    @Test
+    public void shouldUploadFile() {
+        MultiValueMap<String, Object> parameters = new LinkedMultiValueMap<>();
+        parameters.add("file", new FileSystemResource(this.getClass().getResource("/TestFile.xml").getPath()));
+
+        ResponseEntity<String> response = restTemplate.exchange(
+                BASE_URL,
+                HttpMethod.POST,
+                new HttpEntity<>(parameters),
+                String.class
+        );
+        assertTrue(response.getStatusCode().is2xxSuccessful());
+    }
+
+    @Test
+    public void shouldReturnBadRequest_WhenUploadingNotSupportedFile() {
+        MultiValueMap<String, Object> parameters = new LinkedMultiValueMap<>();
+        parameters.add("file", new FileSystemResource(this.getClass().getResource("/WrongTypeFile.txt").getPath()));
+
+        ResponseEntity<String> response = restTemplate.exchange(
+                BASE_URL,
+                HttpMethod.POST,
+                new HttpEntity<>(parameters),
+                String.class
+        );
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
 }
