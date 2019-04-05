@@ -4,12 +4,16 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import ru.ilya.zoo.dto.animal.AnimalCreateDto;
 import ru.ilya.zoo.dto.animal.AnimalResponseDto;
 import ru.ilya.zoo.model.Animal;
 import ru.ilya.zoo.service.impl.AnimalService;
+import ru.ilya.zoo.service.impl.FileService;
 
 import javax.validation.Valid;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 @Slf4j
@@ -17,6 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AnimalResourceImpl implements AnimalResource {
 
+    private final FileService fileService;
     private final AnimalService animalService;
     private final MapperFacade mapperFacade;
 
@@ -72,5 +77,17 @@ public class AnimalResourceImpl implements AnimalResource {
         animalService.delete(animalId);
 
         log.debug("deleteById - end: animalId = {}", animalId);
+    }
+
+    @Override
+    public void upload(MultipartFile multipartFile) {
+        log.debug("upload - start: fileName = {}", multipartFile.getOriginalFilename());
+
+        try (InputStream fileInputStream = multipartFile.getInputStream()) {
+            String result = fileService.upload(fileInputStream, multipartFile.getOriginalFilename());
+            log.debug("upload - end: fileName = {}", result);
+        } catch (IOException e) {
+            log.error("An error has occured", e);
+        }
     }
 }
