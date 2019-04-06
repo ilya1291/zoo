@@ -20,8 +20,7 @@ public class AnimalCreateDto {
     private Long keeperId;
 
     @NotNull
-    @Positive
-    private Long kindId;
+    private String kindName;
 
     @NotNull
     @Positive

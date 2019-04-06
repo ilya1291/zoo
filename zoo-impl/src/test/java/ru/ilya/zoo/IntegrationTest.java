@@ -1,9 +1,11 @@
 package ru.ilya.zoo;
 
 import ma.glasnost.orika.MapperFacade;
+import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -14,6 +16,7 @@ import ru.ilya.zoo.config.SecurityConfig;
 import ru.ilya.zoo.model.*;
 import ru.ilya.zoo.repository.*;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.function.Supplier;
 
@@ -23,6 +26,9 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 public abstract class IntegrationTest {
+
+    @Value("${zoo.import.dir}")
+    protected String importDirectory;
 
     @Autowired
     protected TestRestTemplate restTemplate;
@@ -59,7 +65,12 @@ public abstract class IntegrationTest {
     }
 
     @After
-    public final void clearAllRepositories() {
+    public final void tearDown() throws Exception {
+        clearDb();
+        FileUtils.deleteDirectory(new File(importDirectory));
+    }
+
+    protected final void clearDb() {
         userRepository.deleteAll();
         animalRepository.deleteAll();
         keeperRepository.deleteAll();

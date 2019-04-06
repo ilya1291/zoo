@@ -34,4 +34,13 @@ public class KindRepositoryTest extends IntegrationTest {
         assertFalse(kindRepository.existsById(kind.getId()));
         assertFalse(animalRepository.existsById(animal.getId()));
     }
+
+    @Test
+    public void shouldFindByNameIgnoringCase() {
+        final String kindName = "Kind_Name";
+        Kind expected = kindRepository.save(kindPredator(kindName.toLowerCase()));
+        Kind actual = kindRepository.findByNameIgnoringCase(kindName).get();
+
+        assertEquals(expected.getName(), actual.getName());
+    }
 }

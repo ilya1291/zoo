@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<animals>
+    <animal>
+        <name>Заяц1</name>
+        <birthDate>2019-01-25</birthDate>
+        <kindName>Hare</kindName>
+        <keeperId>1</keeperId>
+        <cageId>1</cageId>
+    </animal>
+    <animal>
+        <name>Заяц2</name>
+        <birthDate>2019-02-26</birthDate>
+        <kindName>Hare</kindName>
+        <keeperId>1</keeperId>
+        <cageId>1</cageId>
+    </animal>
+    <animal>
+        <name>Заяц3</name>
+        <birthDate>2019-01-12</birthDate>
+        <kindName>Hare</kindName>
+        <keeperId>1</keeperId>
+        <cageId>1</cageId>
+    </animal>
+
+    <animal>
+        <name>Волк1</name>
+        <birthDate>2016-04-06</birthDate>
+        <kindName>Wolf</kindName>
+        <keeperId>2</keeperId>
+        <cageId>2</cageId>
+    </animal>
+    <animal>
+        <name>Волк2</name>
+        <birthDate>2015-07-01</birthDate>
+        <kindName>Wolf</kindName>
+        <keeperId>2</keeperId>
+        <cageId>2</cageId>
+    </animal>
+    <animal>
+        <name>Волк3</name>
+        <birthDate>2015-05-10</birthDate>
+        <kindName>Wolf</kindName>
+        <keeperId>2</keeperId>
+        <cageId>2</cageId>
+    </animal>
+</animals>

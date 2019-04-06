@@ -87,7 +87,7 @@ public class AnimalResourceImplTest extends IntegrationTest {
                 .setName("new_animal")
                 .setBirthDate(LocalDate.now())
                 .setCageId(cage.getId())
-                .setKindId(kind.getId())
+                .setKindName(kind.getName())
                 .setKeeperId(keeper.getId());
 
         ResponseEntity<AnimalResponseDto> response = restTemplate.exchange(
@@ -113,7 +113,7 @@ public class AnimalResourceImplTest extends IntegrationTest {
                 .setName("new_animal")
                 .setBirthDate(LocalDate.now())
                 .setCageId(cage.getId())
-                .setKindId(kind.getId())
+                .setKindName(kind.getName())
                 .setKeeperId(keeper.getId());
 
         ResponseEntity<AnimalResponseDto> response = restTemplate.exchange(

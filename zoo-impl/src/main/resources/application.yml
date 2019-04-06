@@ -34,3 +34,14 @@ spring:
     change-log: classpath:database_zoo_changelog.xml
     parameters:
       schema: zoo
+
+  servlet.multipart:
+    maxFileSize: -1
+    maxRequestSize: -1
+
+zoo.import:
+  dir: import_files/
+  supportedMimeTypes:
+          - application/xml
+          - text/xml
+          - text/plain

@@ -2,6 +2,7 @@ package ru.ilya.zoo.service.impl;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.ilya.zoo.exceptions.BadRequestException;
 import ru.ilya.zoo.model.Animal;
@@ -18,8 +19,9 @@ public class AnimalService extends BaseService<Animal> {
     private final KeeperService keeperService;
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public Animal create(Animal animal) {
-        Kind kind = kindService.getOne(animal.getKind().getId());
+        Kind kind = kindService.getByName(animal.getKind().getName());
         Keeper keeper = keeperService.getOne(animal.getKeeper().getId());
         animal.setKind(kind)
               .setKeeper(keeper);

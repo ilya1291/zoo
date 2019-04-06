@@ -41,7 +41,7 @@ public class AnimalMapperConfigTest {
                 .setBirthDate(LocalDate.now())
                 .setCageId(1L)
                 .setKeeperId(2L)
-                .setKindId(3L);
+                .setKindName("kind");
         Animal expected = animal(createDto);
         Animal actual = mapperFacade.map(createDto, Animal.class);
         assertEquals(expected, actual);
@@ -66,6 +66,6 @@ public class AnimalMapperConfigTest {
                 .setBirthDate(src.getBirthDate())
                 .setKeeper(new Keeper().setId(src.getKeeperId()))
                 .setCageId(src.getCageId())
-                .setKind(new Kind().setId(src.getKindId()));
+                .setKind(new Kind().setName(src.getKindName()));
     }
 }

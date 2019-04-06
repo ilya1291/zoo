@@ -17,8 +17,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AnimalResourceImpl implements AnimalResource {
 
-    private final AnimalService animalService;
     private final MapperFacade mapperFacade;
+    private final AnimalService animalService;
 
     @Override
     public List<AnimalResponseDto> getAll() {
