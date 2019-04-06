@@ -5,16 +5,16 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.util.ReflectionTestUtils;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Random;
 
-import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.any;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class FileServiceTest {
 
@@ -37,8 +37,8 @@ public class FileServiceTest {
 
     @Test
     public void shouldUploadFile() {
-        ByteArrayInputStream in = new ByteArrayInputStream(dummyFile);
-        File actualFile = new File(fileService.upload(in, "1.txt"));
+        MultipartFile multipartFile = new MockMultipartFile("file", dummyFile);
+        File actualFile = new File(fileService.upload(multipartFile));
 
         assertTrue(actualFile.exists());
         assertEquals(dummyFile.length, actualFile.length());
@@ -46,8 +46,8 @@ public class FileServiceTest {
 
     @Test(expected = IOException.class)
     public void shouldThrow() throws Exception {
-        InputStream mockInputStream = Mockito.mock(InputStream.class);
-        Mockito.when(mockInputStream.read(any())).thenThrow(IOException.class);
-        fileService.upload(mockInputStream, "1.txt");
+        MultipartFile multipartFile = Mockito.mock(MultipartFile.class);
+        Mockito.when(multipartFile.getInputStream()).thenThrow(IOException.class);
+        fileService.upload(multipartFile);
     }
 }

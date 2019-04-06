@@ -66,13 +66,16 @@ public abstract class IntegrationTest {
 
     @After
     public final void tearDown() throws Exception {
+        clearDb();
+        FileUtils.deleteDirectory(new File(importDirectory));
+    }
+
+    protected final void clearDb() {
         userRepository.deleteAll();
         animalRepository.deleteAll();
         keeperRepository.deleteAll();
         cageRepository.deleteAll();
         kindRepository.deleteAll();
-
-        FileUtils.deleteDirectory(new File(importDirectory));
     }
 
     public <T> T doInTransaction(Supplier<T> method) {

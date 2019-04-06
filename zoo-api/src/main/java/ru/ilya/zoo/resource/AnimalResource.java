@@ -1,12 +1,9 @@
 package ru.ilya.zoo.resource;
 
-import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import ru.ilya.zoo.dto.animal.AnimalCreateDto;
 import ru.ilya.zoo.dto.animal.AnimalResponseDto;
 
@@ -42,8 +39,4 @@ public interface AnimalResource {
     @ApiOperation("Delete animal by id")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void deleteById(@PathVariable("animalId") Long animalId);
-
-    @ApiOperation("Import animals from xml")
-    @PostMapping(consumes = MULTIPART_FORM_DATA_VALUE)
-    void upload(@RequestPart("file") MultipartFile multipartFile);
 }

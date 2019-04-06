@@ -174,7 +174,10 @@
                     <excludes>
                         <exclude>**/SwaggerConfig.*</exclude>
                         <exclude>**/SecurityConfig.*</exclude>
+                        <exclude>**/XmlConfig.*</exclude>
+                        <exclude>**/ValidationConfig.*</exclude>
                         <exclude>**/ZooApplication.*</exclude>
+                        <exclude>**/JwtAuthenticationEntryPoint.*</exclude>
                     </excludes>
                 </configuration>
                 <executions>

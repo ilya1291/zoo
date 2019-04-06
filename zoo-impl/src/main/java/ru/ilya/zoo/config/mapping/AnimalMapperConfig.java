@@ -25,7 +25,7 @@ public class AnimalMapperConfig implements OrikaMapperFactoryConfigurer {
     private void registerCreateDtoToAnimalMapper(MapperFactory mapperFactory) {
         mapperFactory.classMap(AnimalCreateDto.class, Animal.class)
                 .field("keeperId", "keeper.id")
-                .field("kindId", "kind.id")
+                .field("kindName", "kind.name")
                 .byDefault()
                 .register();
     }
