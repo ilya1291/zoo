@@ -39,9 +39,11 @@ spring:
     maxFileSize: -1
     maxRequestSize: -1
 
-zoo.import:
-  dir: import_files/
-  supportedMimeTypes:
-          - application/xml
-          - text/xml
-          - text/plain
+zoo:
+  export.dir: export_files/
+  import:
+    dir: import_files/
+    supportedMimeTypes:
+      - application/xml
+      - text/xml
+      - text/plain

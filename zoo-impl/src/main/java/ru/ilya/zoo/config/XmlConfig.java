@@ -7,6 +7,7 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+import javax.xml.stream.XMLOutputFactory;
 
 @Configuration
 public class XmlConfig {
@@ -15,5 +16,10 @@ public class XmlConfig {
     public SAXParser saxParser() throws ParserConfigurationException, SAXException {
         SAXParserFactory factory = SAXParserFactory.newInstance();
         return factory.newSAXParser();
+    }
+
+    @Bean
+    public XMLOutputFactory xmlOutputFactory() {
+        return XMLOutputFactory.newInstance();
     }
 }

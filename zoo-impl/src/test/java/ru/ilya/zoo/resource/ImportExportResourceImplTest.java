@@ -1,5 +1,6 @@
 package ru.ilya.zoo.resource;
 
+import org.apache.commons.io.IOUtils;
 import org.junit.After;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +12,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import ru.ilya.zoo.IntegrationTest;
+import ru.ilya.zoo.model.Animal;
+import ru.ilya.zoo.model.Cage;
+import ru.ilya.zoo.model.Keeper;
+import ru.ilya.zoo.model.Kind;
 
 import javax.persistence.EntityManager;
 
 import static org.junit.Assert.*;
 import static ru.ilya.zoo.utils.TestObjects.*;
-import static ru.ilya.zoo.utils.TestObjects.keeper;
 
 public class ImportExportResourceImplTest extends IntegrationTest {
 
@@ -72,5 +76,24 @@ public class ImportExportResourceImplTest extends IntegrationTest {
                 String.class
         );
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
+    @Test
+    public void shouldDownloadAnimals() {
+        Kind kind = save(new Kind().setName("kind1"));
+        Cage cage = save(cage());
+        Keeper keeper = save(keeper());
+        Animal animal = save(animal(kind, cage.getId(), keeper));
+
+        ResponseEntity<byte[]> result = restTemplate.execute(
+                BASE_URL + "/export",
+                HttpMethod.GET,
+                req -> {},
+                resp -> new ResponseEntity<>(IOUtils.toByteArray(resp.getBody()), resp.getStatusCode())
+        );
+        assertEquals(result.getStatusCode(), HttpStatus.OK);
+
+        String resultXml = new String(result.getBody());
+        assertFalse(resultXml.trim().isEmpty());
     }
 }

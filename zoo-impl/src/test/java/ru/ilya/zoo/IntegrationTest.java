@@ -29,6 +29,8 @@ public abstract class IntegrationTest {
 
     @Value("${zoo.import.dir}")
     protected String importDirectory;
+    @Value("${zoo.export.dir}")
+    protected String exportDirectory;
 
     @Autowired
     protected TestRestTemplate restTemplate;
@@ -68,6 +70,7 @@ public abstract class IntegrationTest {
     public final void tearDown() throws Exception {
         clearDb();
         FileUtils.deleteDirectory(new File(importDirectory));
+        FileUtils.deleteDirectory(new File(exportDirectory));
     }
 
     protected final void clearDb() {
