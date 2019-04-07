@@ -2,11 +2,15 @@ package ru.ilya.zoo.repository;
 
 import org.junit.Test;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.transaction.annotation.Transactional;
 import ru.ilya.zoo.IntegrationTest;
 import ru.ilya.zoo.model.Animal;
 import ru.ilya.zoo.model.Cage;
 import ru.ilya.zoo.model.Keeper;
 import ru.ilya.zoo.model.Kind;
+
+import java.util.stream.Stream;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -36,5 +40,20 @@ public class AnimalRepositoryTest extends IntegrationTest {
 
         save(animal("name", kind, cage.getId(), keeper),
              animal("name", kind, cage.getId(), keeper));
+    }
+
+    @Test
+    @Rollback
+    @Transactional
+    public void shouldFindAllAsStream() {
+        Kind kind = save(kindPredator("kind_name"));
+        Keeper keeper = save(keeper());
+        Cage cage = save(new Cage());
+
+        Animal expected = save(animal("name", kind, cage.getId(), keeper));
+
+        try(Stream<Animal> animals = animalRepository.findAllAsStream()) {
+            animals.forEach(a -> assertEquals(expected, a));
+        }
     }
 }
