@@ -9,6 +9,9 @@ import ru.ilya.zoo.model.Animal;
 import ru.ilya.zoo.model.Cage;
 import ru.ilya.zoo.model.Keeper;
 import ru.ilya.zoo.model.Kind;
+import ru.ilya.zoo.repository.AnimalRepository;
+
+import java.util.stream.Stream;
 
 @Service
 @Transactional
@@ -17,6 +20,11 @@ public class AnimalService extends BaseService<Animal> {
     private final CageService cageService;
     private final KindService kindService;
     private final KeeperService keeperService;
+    private final AnimalRepository animalRepository;
+
+    public Stream<Animal> getAllAsStream() {
+        return animalRepository.findAllAsStream();
+    }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -45,10 +53,11 @@ public class AnimalService extends BaseService<Animal> {
 
     public AnimalService(JpaRepository<Animal, Long> repository,
                          CageService cageService, KindService kindService,
-                         KeeperService keeperService) {
+                         KeeperService keeperService, AnimalRepository animalRepository) {
         super(repository);
         this.cageService = cageService;
         this.kindService = kindService;
         this.keeperService = keeperService;
+        this.animalRepository = animalRepository;
     }
 }

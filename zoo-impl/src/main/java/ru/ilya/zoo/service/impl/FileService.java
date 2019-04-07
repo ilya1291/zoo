@@ -21,11 +21,21 @@ public class FileService {
     @Value("${zoo.import.dir}")
     private String importDirectory;
 
+    @Value("${zoo.export.dir}")
+    private String exportDirectory;
+
     @SneakyThrows
     public String upload(MultipartFile multipartFile) {
         @Cleanup InputStream fileInputStream = multipartFile.getInputStream();
         File destinationFile = new File(importDirectory + UUID.randomUUID() + multipartFile.getOriginalFilename());
         FileUtils.copyInputStreamToFile(fileInputStream, destinationFile);
         return destinationFile.getAbsolutePath();
+    }
+
+    @SneakyThrows
+    public File createExportFile(String filename) {
+        File tempExportFile = new File(exportDirectory + filename);
+        FileUtils.forceMkdirParent(tempExportFile);
+        return tempExportFile;
     }
 }
