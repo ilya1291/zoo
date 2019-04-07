@@ -5,13 +5,14 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.ilya.zoo.validator.annotations.ValidContentType;
 
 import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 
-//@Validated
+@Validated
 @Api(value = "Import/Export", description = "Animals import/export resource")
 @RequestMapping("api/animals")
 public interface ImportExportResource {
