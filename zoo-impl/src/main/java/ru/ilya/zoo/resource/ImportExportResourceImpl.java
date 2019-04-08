@@ -45,7 +45,8 @@ public class ImportExportResourceImpl implements ImportExportResource {
     public ResponseEntity<Resource> export() {
         log.debug("upload - start");
 
-        File file = new File(animalXmlService.exportTo());
+        File file = fileService.createExportFile("animals_" + System.currentTimeMillis() + ".xml");
+        file = animalXmlService.exportTo(file);
 
         log.debug("upload - end");
         return ResponseEntity.ok()

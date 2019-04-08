@@ -1,5 +1,8 @@
 package ru.ilya.zoo.service.impl;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
+import lombok.Cleanup;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
@@ -31,19 +34,18 @@ public class AnimalXmlServiceImpl implements AnimalXmlService {
 
     @Override
     @SneakyThrows
-    public String exportTo() {
-        File exportFile = fileService.createExportFile("animals_" + LocalDateTime.now() + ".xml");
-        XMLStreamWriter xmlStreamWriter = xmlOutputFactory.createXMLStreamWriter(new FileOutputStream(exportFile), StandardCharsets.UTF_8.name());
-        AnimalSaxWriter animalSaxWriter = new AnimalSaxWriter(xmlStreamWriter);
+    public File exportTo(File file) {
+        @Cleanup FileOutputStream outputStream = new FileOutputStream(file);
+        XMLStreamWriter xmlStreamWriter = xmlOutputFactory.createXMLStreamWriter(outputStream, UTF_8.name());
+        @Cleanup AnimalSaxWriter animalSaxWriter = new AnimalSaxWriter(xmlStreamWriter);
 
         animalSaxWriter.writeRootElement();
         try (Stream<Animal> animals = animalService.getAllAsStream()) {
             animals.forEach(animalSaxWriter::write);
         }
         animalSaxWriter.writeEndRootElement();
-        animalSaxWriter.close();
 
-        return exportFile.getAbsolutePath();
+        return file;
     }
 
     @Override

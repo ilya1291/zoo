@@ -35,7 +35,7 @@ public class FileService {
     @SneakyThrows
     public File createExportFile(String filename) {
         File tempExportFile = new File(exportDirectory + filename);
-        FileUtils.forceMkdirParent(tempExportFile);
+        FileUtils.touch(tempExportFile);
         return tempExportFile;
     }
 }

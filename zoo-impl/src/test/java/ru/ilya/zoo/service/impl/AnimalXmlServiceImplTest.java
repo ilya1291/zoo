@@ -72,10 +72,9 @@ public class AnimalXmlServiceImplTest  {
 
     @Test
     public void exportTo() {
-        when(fileService.createExportFile(anyString())).thenReturn(testExportFile);
         when(animalService.getAllAsStream()).thenReturn(Stream.of(TestObjects.animal()));
 
-        File actualFile = new File(animalXmlService.exportTo());
+        File actualFile = animalXmlService.exportTo(testExportFile);
 
         assertTrue(actualFile.exists());
         assertThat(actualFile.length(), not(0));
