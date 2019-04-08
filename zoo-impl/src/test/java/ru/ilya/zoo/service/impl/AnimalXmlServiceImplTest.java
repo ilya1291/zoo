@@ -28,16 +28,14 @@ public class AnimalXmlServiceImplTest  {
 
     private File testExportFile;
 
-    private FileService fileService;
     private AnimalService animalService;
     private AnimalXmlServiceImpl animalXmlService;
 
     @Before
     public void setUp() throws Exception {
-        fileService = Mockito.mock(FileService.class);
         animalService = Mockito.mock(AnimalService.class);
         SAXParserFactory factory = SAXParserFactory.newInstance();
-        animalXmlService = new AnimalXmlServiceImpl(factory.newSAXParser(), fileService, animalService, XMLOutputFactory.newInstance());
+        animalXmlService = new AnimalXmlServiceImpl(factory.newSAXParser(), animalService, XMLOutputFactory.newInstance());
 
         testExportFile = new File(TEST_EXPORT_DIR + "/test_export_file.xml");
         FileUtils.forceMkdirParent(testExportFile);

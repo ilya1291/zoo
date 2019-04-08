@@ -1,7 +1,5 @@
 package ru.ilya.zoo.service.impl;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
-
 import lombok.Cleanup;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -18,9 +16,9 @@ import javax.xml.stream.XMLStreamWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-import java.time.LocalDateTime;
 import java.util.stream.Stream;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 @Service
 @Transactional
@@ -28,7 +26,6 @@ import java.util.stream.Stream;
 public class AnimalXmlServiceImpl implements AnimalXmlService {
 
     private final SAXParser saxParser;
-    private final FileService fileService;
     private final AnimalService animalService;
     private final XMLOutputFactory xmlOutputFactory;
 
