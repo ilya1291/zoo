@@ -2,22 +2,23 @@ package ru.ilya.zoo.resource;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import ru.ilya.zoo.dto.GenericPageDto;
 import ru.ilya.zoo.dto.animal.AnimalCreateDto;
 import ru.ilya.zoo.dto.animal.AnimalResponseDto;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Api(value = "Animals", description = "Animals resource")
 @RequestMapping("api/animals")
 public interface AnimalResource {
 
     @GetMapping
-    @ApiOperation("Get all animals")
+    @ApiOperation("Get all animals by pages")
     @ResponseStatus(HttpStatus.OK)
-    List<AnimalResponseDto> getAll();
+    GenericPageDto<AnimalResponseDto> getAll(Pageable pageable);
 
     @GetMapping("/{animalId}")
     @ApiOperation("Get one animal by id")

@@ -3,7 +3,10 @@ package ru.ilya.zoo.resource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.MapperFacade;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RestController;
+import ru.ilya.zoo.dto.GenericPageDto;
 import ru.ilya.zoo.dto.animal.AnimalCreateDto;
 import ru.ilya.zoo.dto.animal.AnimalResponseDto;
 import ru.ilya.zoo.model.Animal;
@@ -21,14 +24,14 @@ public class AnimalResourceImpl implements AnimalResource {
     private final AnimalService animalService;
 
     @Override
-    public List<AnimalResponseDto> getAll() {
+    public GenericPageDto<AnimalResponseDto> getAll(Pageable pageable) {
         log.debug("getAll - start");
 
-        List<Animal> animals = animalService.getAll();
-        List<AnimalResponseDto> result = mapperFacade.mapAsList(animals, AnimalResponseDto.class);
+        Page<Animal> animalPage = animalService.getAll(pageable);
+        List<AnimalResponseDto> result = mapperFacade.mapAsList(animalPage.getContent(), AnimalResponseDto.class);
 
         log.debug("getAll - end: result = {}", result);
-        return result;
+        return new GenericPageDto<>(result, animalPage.getTotalElements());
     }
 
     @Override

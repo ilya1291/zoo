@@ -8,6 +8,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import ru.ilya.zoo.IntegrationTest;
+import ru.ilya.zoo.dto.GenericPageDto;
 import ru.ilya.zoo.dto.animal.AnimalCreateDto;
 import ru.ilya.zoo.dto.animal.AnimalResponseDto;
 import ru.ilya.zoo.model.Animal;
@@ -37,17 +38,23 @@ public class AnimalResourceImplTest extends IntegrationTest {
     }
 
     @Test
-    public void getAll() {
+    public void getAllByPages() {
         List<AnimalResponseDto> expected = mapperFacade.mapAsList(singletonList(animal), AnimalResponseDto.class);
 
-        ResponseEntity<List<AnimalResponseDto>> response = restTemplate.exchange(
-                BASE_URL,
+        ResponseEntity<GenericPageDto<AnimalResponseDto>> response = restTemplate.exchange(
+                BASE_URL + "?page={0}&size={1}",
                 HttpMethod.GET,
                 null,
-                new ParameterizedTypeReference<List<AnimalResponseDto>>() {}
+                new ParameterizedTypeReference<GenericPageDto<AnimalResponseDto>>() {},
+                0, 1
         );
         assertEquals(response.getStatusCode(), HttpStatus.OK);
-        assertEquals(expected, response.getBody());
+
+        GenericPageDto<AnimalResponseDto> result = response.getBody();
+        assertNotNull(result);
+        assertEquals(1L, result.getTotal());
+        assertEquals(1, result.getData().size());
+        assertEquals(expected, result.getData());
     }
 
     @Test

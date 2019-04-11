@@ -1,6 +1,8 @@
 package ru.ilya.zoo.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.ilya.zoo.exceptions.EntityNotFoundException;
@@ -19,6 +21,12 @@ abstract class BaseService<T> implements Service<T> {
     @Transactional(readOnly = true)
     public List<T> getAll() {
         return repository.findAll();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<T> getAll(Pageable pageable) {
+        return repository.findAll(pageable);
     }
 
     @Override
