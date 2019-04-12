@@ -36,12 +36,23 @@ public class AnimalResourceImpl implements AnimalResource {
 
     @Override
     public AnimalResponseDto getOne(Long animalId) {
-        log.debug("getOne - start");
+        log.debug("getOne - start: animalId = {}", animalId);
 
         Animal animal = animalService.getOne(animalId);
         AnimalResponseDto result = mapperFacade.map(animal, AnimalResponseDto.class);
 
         log.debug("getOne - end: result = {}", result);
+        return result;
+    }
+
+    @Override
+    public AnimalResponseDto getRandom() {
+        log.debug("getRandom - start");
+
+        Animal animal = animalService.getRandom();
+        AnimalResponseDto result = mapperFacade.map(animal, AnimalResponseDto.class);
+
+        log.debug("getRandom - end: result = {}", result);
         return result;
     }
 

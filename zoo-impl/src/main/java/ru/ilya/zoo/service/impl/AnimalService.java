@@ -1,10 +1,13 @@
 package ru.ilya.zoo.service.impl;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.ilya.zoo.exceptions.BadRequestException;
+import ru.ilya.zoo.exceptions.EntityNotFoundException;
 import ru.ilya.zoo.model.Animal;
 import ru.ilya.zoo.model.Cage;
 import ru.ilya.zoo.model.Keeper;
@@ -24,6 +27,17 @@ public class AnimalService extends BaseService<Animal> {
 
     public Stream<Animal> getAllAsStream() {
         return animalRepository.findAllAsStream();
+    }
+
+    public Animal getRandom() {
+        long count = animalRepository.count();
+        if (count == 0) {
+            throw new EntityNotFoundException("There no animal in database");
+        }
+
+        int index = (int) (Math.random() * count);
+        Page<Animal> animalPage = animalRepository.findAll(PageRequest.of(index, 1));
+        return animalPage.getContent().get(0);
     }
 
     @Override

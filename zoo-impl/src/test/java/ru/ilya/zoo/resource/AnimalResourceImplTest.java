@@ -73,6 +73,20 @@ public class AnimalResourceImplTest extends IntegrationTest {
     }
 
     @Test
+    public void getRandom() {
+        AnimalResponseDto expected = mapperFacade.map(animal, AnimalResponseDto.class);
+
+        ResponseEntity<AnimalResponseDto> response = restTemplate.exchange(
+                BASE_URL + "/random",
+                HttpMethod.GET,
+                null,
+                AnimalResponseDto.class
+        );
+        assertEquals(response.getStatusCode(), HttpStatus.OK);
+        assertEquals(expected, response.getBody());
+    }
+
+    @Test
     public void shouldReturnNotFound_OnGetOne() {
         ResponseEntity<String> response = restTemplate.exchange(
                 BASE_URL + "/{animalId}",
@@ -80,6 +94,18 @@ public class AnimalResourceImplTest extends IntegrationTest {
                 null,
                 String.class,
                 Long.MAX_VALUE
+        );
+        assertEquals(response.getStatusCode(), HttpStatus.NOT_FOUND);
+    }
+
+    @Test
+    public void shouldReturnNotFound_OnGetRandom() {
+        clearDb();
+        ResponseEntity<String> response = restTemplate.exchange(
+                BASE_URL + "/random",
+                HttpMethod.GET,
+                null,
+                String.class
         );
         assertEquals(response.getStatusCode(), HttpStatus.NOT_FOUND);
     }

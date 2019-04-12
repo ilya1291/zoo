@@ -25,6 +25,11 @@ public interface AnimalResource {
     @ResponseStatus(HttpStatus.OK)
     AnimalResponseDto getOne(@PathVariable("animalId") Long animalId);
 
+    @GetMapping("/random")
+    @ApiOperation("Get random animal")
+    @ResponseStatus(HttpStatus.OK)
+    AnimalResponseDto getRandom();
+
     @PostMapping
     @ApiOperation("Create new animal")
     @ResponseStatus(HttpStatus.CREATED)
