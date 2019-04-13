@@ -23,6 +23,6 @@ env:
 after_success:
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
   - export REPO=iliapoliakov/zoo
-  - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
-  - docker build --pull=true --force-rm -t $REPO:$TAG.$TRAVIS_BUILD_NUMBER .
+  - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH.$TRAVIS_BUILD_NUMBER ; fi`
+  - docker build --pull=true --force-rm -t $REPO:$TAG .
   - docker push $REPO
