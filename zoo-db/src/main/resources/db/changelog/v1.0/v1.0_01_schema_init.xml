@@ -65,6 +65,7 @@
             <column name="id" type="BIGINT" defaultValueSequenceNext="cage_id_seq">
                 <constraints nullable="false"/>
             </column>
+            <column name="is_for_predators" type="BOOLEAN" defaultValueBoolean="false" />
             <column name="capacity" type="INTEGER" />
         </createTable>
     </changeSet>

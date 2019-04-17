@@ -216,6 +216,20 @@ public class AnimalResourceImplTest extends IntegrationTest {
     }
 
     @Test
+    public void shouldNotMoveHerbivoreToPredatorsCage() {
+        Cage newCage = save(cage(1).setForPredators(true));
+
+        ResponseEntity<String> response = restTemplate.exchange(
+                BASE_URL + "/{animalId}/cages/{cageId}",
+                HttpMethod.PUT,
+                null,
+                String.class,
+                animal.getId(), newCage.getId()
+        );
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
+    @Test
     public void deleteById() {
         ResponseEntity<String> response = restTemplate.exchange(
                 BASE_URL + "/{animalId}",

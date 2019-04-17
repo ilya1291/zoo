@@ -1,11 +1,13 @@
 package ru.ilya.zoo.service.impl;
 
 import static java.util.Collections.singletonList;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.when;
 import static ru.ilya.zoo.utils.TestObjects.animal;
+import static ru.ilya.zoo.utils.TestObjects.cage;
 import static ru.ilya.zoo.utils.TestObjects.keeper;
 import static ru.ilya.zoo.utils.TestObjects.kind;
 
@@ -17,11 +19,18 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import ru.ilya.zoo.exceptions.BadRequestException;
 import ru.ilya.zoo.exceptions.EntityNotFoundException;
 import ru.ilya.zoo.model.Animal;
+import ru.ilya.zoo.model.Cage;
 import ru.ilya.zoo.repository.AnimalRepository;
 
+import java.util.Optional;
+
 public class AnimalServiceTest {
+
+    @Mock
+    private CageService cageService;
 
     @Mock
     private AnimalRepository animalRepository;
@@ -55,5 +64,25 @@ public class AnimalServiceTest {
     public void shouldThrowNotFound_WhenCountZero() {
         when(animalRepository.count()).thenReturn(0L);
         animalService.getRandom();
+    }
+
+    @Test(expected = BadRequestException.class)
+    public void shouldThrow_whenMovingHerbivoreToPredatorsCage() {
+        Animal herbivoreAnimal = animal().setKind(kind());
+        Cage predatorsCage = cage().setForPredators(true);
+
+        when(cageService.getOne(anyLong())).thenReturn(predatorsCage);
+        when(animalRepository.findById(anyLong())).thenReturn(Optional.of(herbivoreAnimal));
+        animalService.moveToCage(1L, 1L);
+    }
+
+    @Test(expected = BadRequestException.class)
+    public void shouldThrow_whenMovingAnimalToFullCage() {
+        Cage cage = cage(1)
+                .setAnimals(singletonList(animal()));
+
+        when(cageService.getOne(anyLong())).thenReturn(cage);
+        when(animalRepository.findById(anyLong())).thenReturn(Optional.of(animal()));
+        animalService.moveToCage(1L, 2L);
     }
 }

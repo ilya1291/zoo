@@ -21,6 +21,7 @@ public class Kind {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "is_predator")
     private boolean isPredator;
 
     @EqualsAndHashCode.Exclude

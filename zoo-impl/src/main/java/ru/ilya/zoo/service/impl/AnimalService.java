@@ -62,6 +62,9 @@ public class AnimalService extends BaseService<Animal> {
         if (cage.isFull()) {
             throw new BadRequestException(String.format("Cage with id = %d is already full", cageId));
         }
+        if (cage.isForPredators() != animal.getKind().isPredator()) {
+            throw new BadRequestException(String.format("Moving animal's kind and cage must be compatible"));
+        }
         return animal.setCageId(cageId);
     }
 

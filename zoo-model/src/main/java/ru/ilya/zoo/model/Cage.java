@@ -21,6 +21,9 @@ public class Cage {
     @Column(name = "capacity")
     private Integer capacity;
 
+    @Column(name = "is_for_predators")
+    private boolean isForPredators;
+
     @OneToMany
     @JoinColumn(name = "cageId")
     @LazyCollection(LazyCollectionOption.EXTRA)
