@@ -16,7 +16,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-public class AdminResourceImpl implements AdminResource {
+public class UserResourceImpl implements UserResource {
 
     private final UserService userService;
     private final MapperFacade mapperFacade;

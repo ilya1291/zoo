@@ -10,9 +10,9 @@ import ru.ilya.zoo.dto.user.UserResponseDto;
 import javax.validation.Valid;
 import java.util.List;
 
-@Api(value = "Admin", description = "Admin resource")
+@Api(value = "Users", description = "User resource for admin")
 @RequestMapping("admin/users")
-public interface AdminResource {
+public interface UserResource {
 
     @GetMapping
     @ApiOperation("Get all user")

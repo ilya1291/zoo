@@ -22,7 +22,7 @@ import static java.util.Collections.singletonList;
 import static org.junit.Assert.*;
 import static ru.ilya.zoo.utils.TestObjects.user;
 
-public class AdminResourceImplTest extends IntegrationTest {
+public class UserResourceImplTest extends IntegrationTest {
 
     private static final String BASE_URL = "/admin/users";
     private static final String PASSWORD = "123456";
