@@ -20,3 +20,12 @@ services:
       PGADMIN_DEFAULT_PASSWORD: 123
     ports:
       - 8081:80
+
+  app:
+    depends_on:
+      - db
+    image: iliapoliakov/zoo:latest
+    container_name: zoo
+    restart: always
+    ports:
+      - 8080:8080
