@@ -78,4 +78,8 @@ public class TestObjects {
     public static Cage cage(Integer capacity) {
         return new Cage().setCapacity(capacity);
     }
+
+    public static Cage cageForPredators(Integer capacity) {
+        return cage(capacity).setForPredators(true);
+    }
 }

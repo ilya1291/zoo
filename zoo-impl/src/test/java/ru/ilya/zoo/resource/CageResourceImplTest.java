@@ -89,7 +89,7 @@ public class CageResourceImplTest extends IntegrationTest {
 
     @Test
     public void create() {
-        CageCreateDto dto = new CageCreateDto(10);
+        CageCreateDto dto = new CageCreateDto(10, true);
         ResponseEntity<CageResponseDto> response = restTemplate.exchange(
                 BASE_URL,
                 HttpMethod.POST,

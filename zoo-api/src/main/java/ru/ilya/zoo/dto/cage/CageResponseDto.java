@@ -6,4 +6,5 @@ import lombok.Data;
 public class CageResponseDto {
     private Long id;
     private Integer capacity;
+    private boolean isForPredators;
 }

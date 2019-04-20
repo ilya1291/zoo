@@ -9,4 +9,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CageCreateDto {
     private Integer capacity;
+    private boolean isForPredators;
 }

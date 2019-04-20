@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 import static ru.ilya.zoo.utils.TestObjects.cage;
+import static ru.ilya.zoo.utils.TestObjects.cageForPredators;
 
 public class CageMapperConfigTest {
 
@@ -28,7 +29,7 @@ public class CageMapperConfigTest {
 
     @Test
     public void shouldMapCage_toCageResponseDto() {
-        Cage cage = new Cage().setId(1L);
+        Cage cage = cageForPredators(10);
         CageResponseDto expected = cageResponseDto(cage);
         CageResponseDto actual = mapperFacade.map(cage, CageResponseDto.class);
         assertEquals(expected, actual);
@@ -36,8 +37,8 @@ public class CageMapperConfigTest {
 
     @Test
     public void shouldMapCreateDto_ToCage() {
-        CageCreateDto createDto = new CageCreateDto(10);
-        Cage expected = cage(createDto.getCapacity());
+        CageCreateDto createDto = new CageCreateDto(10, true);
+        Cage expected = cageForPredators(createDto.getCapacity());
         Cage actual = mapperFacade.map(createDto, Cage.class);
         assertEquals(expected, actual);
     }
@@ -58,6 +59,7 @@ public class CageMapperConfigTest {
     private CageResponseDto cageResponseDto(Cage src) {
         return new CageResponseDto()
                 .setId(src.getId())
+                .setForPredators(src.isForPredators())
                 .setCapacity(src.getCapacity());
     }
 
